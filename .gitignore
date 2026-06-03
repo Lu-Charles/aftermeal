@@ -1,0 +1,37 @@
+.venv/
+.venv-segmentation/
+.venv-depth/
+models/depth-cache/
+data/depth-cache/
+models/segmentation-cache/
+data/segmentation-cache/
+__pycache__/
+*.pyc
+.DS_Store
+reports/my-*.json
+uploads/
+.local/
+models/hosted/
+
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
+
+# Personal records and exports
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+exports/
+private/
+*.log
