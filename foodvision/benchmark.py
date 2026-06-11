@@ -15,3 +15,11 @@ def verify_payload(root: Path=ROOT) -> int:
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
             raise ValueError(f'Bundled input is missing or changed: {name}')
     return len(manifest)
+
+def check_partition(records: list[dict], train: list[int], held_out: list[int]) -> None:
+    """Catch crossed record, original-group and reviewed-image boundaries."""
+    for field in ('record_id', 'group', 'similarity_component'):
+        training_values = {records[index][field] for index in train}
+        held_out_values = {records[index][field] for index in held_out}
+        if training_values & held_out_values:
+            raise ValueError(f'Training and evaluation overlap in {field}.')

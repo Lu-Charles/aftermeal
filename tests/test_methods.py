@@ -1,5 +1,13 @@
 """Small checks for the methodological mistakes most likely during a refactor."""
 import unittest
+from foodvision.benchmark import check_partition
+
+class MethodChecks(unittest.TestCase):
+
+    def test_similarity_links_block_different_groups(self):
+        rows = [{'record_id': 'one', 'group': 'a', 'similarity_component': 'shared'}, {'record_id': 'two', 'group': 'b', 'similarity_component': 'shared'}]
+        with self.assertRaises(ValueError):
+            check_partition(rows, [0], [1])
 if __name__ == '__main__':
     unittest.main()
 import hashlib
