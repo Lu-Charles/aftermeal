@@ -2,7 +2,7 @@
 import unittest
 import numpy as np
 from foodvision.models import group_weights, lower_weighted_median
-from foodvision.benchmark import check_partition
+from foodvision.benchmark import check_partition, group_mae
 
 class MethodChecks(unittest.TestCase):
 
@@ -13,6 +13,11 @@ class MethodChecks(unittest.TestCase):
 
     def test_median_tie_uses_lower_endpoint(self):
         self.assertEqual(lower_weighted_median(np.array([0.1, 0.9]), np.ones(2)), 0.1)
+
+    def test_large_groups_do_not_dominate_scoring(self):
+        predictions = np.array([[1, 0, 0, 0]])
+        score = group_mae(predictions, np.zeros(4), np.array(['a', 'b', 'b', 'b']))
+        self.assertAlmostEqual(score[0], 0.5)
 
     def test_similarity_links_block_different_groups(self):
         rows = [{'record_id': 'one', 'group': 'a', 'similarity_component': 'shared'}, {'record_id': 'two', 'group': 'b', 'similarity_component': 'shared'}]

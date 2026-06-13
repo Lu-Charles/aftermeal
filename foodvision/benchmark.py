@@ -45,9 +45,13 @@ def run(output, root=ROOT):
     summary = {}
     for source in ('LeFood', 'ACETADA'):
         ids = np.array([i for i, r in enumerate(records) if r['source'] == source])
-        scores = np.abs(predictions[:, ids] - targets[ids]).mean(axis=1)
+        scores = group_mae(predictions[:, ids], targets[ids], groups[ids])
         summary[source] = {'records': len(ids), 'mae_percentage_points': dict(zip(('Mean', 'Median'), (100 * scores).tolist()))}
     report = {'summary': summary, 'episodes': len(episodes)}
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + '\n')
     return report
+
+def group_mae(predictions, fractions, groups):
+    errors = np.abs(np.clip(predictions, 0, 1.25) - fractions)
+    return np.mean([errors[:, groups == group].mean(axis=1) for group in sorted(set(groups))], axis=0)
