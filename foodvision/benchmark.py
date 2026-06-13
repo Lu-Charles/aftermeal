@@ -23,3 +23,31 @@ def check_partition(records: list[dict], train: list[int], held_out: list[int]) 
         held_out_values = {records[index][field] for index in held_out}
         if training_values & held_out_values:
             raise ValueError(f'Training and evaluation overlap in {field}.')
+from .models import group_weights, lower_weighted_median
+
+def run(output, root=ROOT):
+    if output.exists():
+        raise FileExistsError(f'Choose a new output path: {output}')
+    verify_payload(root)
+    records = json.loads((root / 'data/records.json').read_text())
+    episodes = json.loads((root / 'data/episodes.json').read_text())
+    targets = np.array([r['fraction'] for r in records])
+    groups = np.array([r['group'] for r in records])
+    predictions = np.full((2, len(records)), np.nan)
+    for episode in episodes:
+        train, test = (episode['train'], episode['test'])
+        check_partition(records, train, test)
+        weights = group_weights(groups[train])
+        predictions[0, test] = np.average(targets[train], weights=weights)
+        predictions[1, test] = lower_weighted_median(targets[train], weights)
+    if not np.isfinite(predictions).all():
+        raise ValueError('Missing held-out prediction.')
+    summary = {}
+    for source in ('LeFood', 'ACETADA'):
+        ids = np.array([i for i, r in enumerate(records) if r['source'] == source])
+        scores = np.abs(predictions[:, ids] - targets[ids]).mean(axis=1)
+        summary[source] = {'records': len(ids), 'mae_percentage_points': dict(zip(('Mean', 'Median'), (100 * scores).tolist()))}
+    report = {'summary': summary, 'episodes': len(episodes)}
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2) + '\n')
+    return report
