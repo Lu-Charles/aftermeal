@@ -4,7 +4,11 @@ import numpy as np
 def normalize_embeddings(embeddings: np.ndarray) -> np.ndarray:
     """Normalize each image independently; no statistics come from test images."""
     embeddings = np.asarray(embeddings, dtype=np.float64)
+    if embeddings.ndim != 2 or not np.isfinite(embeddings).all():
+        raise ValueError('Expected a finite matrix with one image per row.')
     lengths = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    if np.any(lengths == 0):
+        raise ValueError('A zero embedding has no cosine direction.')
     return embeddings / lengths
 
 def meal_representations(before: np.ndarray, after: np.ndarray) -> dict[str, np.ndarray]:
@@ -16,6 +20,8 @@ def meal_representations(before: np.ndarray, after: np.ndarray) -> dict[str, np.
     """
     before = normalize_embeddings(before)
     after = normalize_embeddings(after)
+    if before.shape != after.shape:
+        raise ValueError('Before and after embeddings must describe matching pairs.')
     return {'After': after, 'Paired': np.concatenate([before, after], axis=1) / np.sqrt(2), 'Vector change': (after - before) / np.sqrt(2), 'Cosine change': (1 - (after * before).sum(axis=1))[:, None]}
 
 def rbf_kernel(features: np.ndarray, gamma: float) -> np.ndarray:

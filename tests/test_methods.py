@@ -1,11 +1,15 @@
 """Small checks for the methodological mistakes most likely during a refactor."""
 import unittest
 import numpy as np
-from foodvision.features import meal_representations
+from foodvision.features import meal_representations, normalize_embeddings
 from foodvision.models import group_weights, lower_weighted_median
 from foodvision.benchmark import check_partition, group_mae
 
 class MethodChecks(unittest.TestCase):
+
+    def test_zero_embeddings_are_rejected(self):
+        with self.assertRaises(ValueError):
+            normalize_embeddings(np.zeros((1, 3)))
 
     def test_identical_photos_have_zero_change(self):
         photos = np.array([[1, 2, 3], [3, 1, 2]])
