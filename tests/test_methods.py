@@ -1,10 +1,18 @@
 """Small checks for the methodological mistakes most likely during a refactor."""
 import unittest
 import numpy as np
+from foodvision.features import meal_representations
 from foodvision.models import group_weights, lower_weighted_median
 from foodvision.benchmark import check_partition, group_mae
 
 class MethodChecks(unittest.TestCase):
+
+    def test_identical_photos_have_zero_change(self):
+        photos = np.array([[1, 2, 3], [3, 1, 2]])
+        features = meal_representations(photos, photos)
+        np.testing.assert_allclose(features['Vector change'], 0, atol=1e-14)
+        np.testing.assert_allclose(features['Cosine change'], 0, atol=1e-14)
+        np.testing.assert_allclose(np.linalg.norm(features['Paired'], axis=1), 1)
 
     def test_groups_have_equal_total_weight(self):
         groups = np.array(['small', 'large', 'large', 'large'])
