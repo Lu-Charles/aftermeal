@@ -2,7 +2,7 @@
 import unittest
 import numpy as np
 from foodvision.features import meal_representations, normalize_embeddings
-from foodvision.models import group_weights, lower_weighted_median
+from foodvision.models import CandidateRegressors, group_weights, lower_weighted_median
 from foodvision.benchmark import check_partition, group_mae
 
 class MethodChecks(unittest.TestCase):
@@ -35,6 +35,11 @@ class MethodChecks(unittest.TestCase):
         rows = [{'record_id': 'one', 'group': 'a', 'similarity_component': 'shared'}, {'record_id': 'two', 'group': 'b', 'similarity_component': 'shared'}]
         with self.assertRaises(ValueError):
             check_partition(rows, [0], [1])
+
+    def test_empty_training_uses_zero_not_evaluation_labels(self):
+        features = meal_representations(np.eye(2), np.eye(2))
+        regressors = CandidateRegressors(features, [0.2, 0.8], ['a', 'b'])
+        np.testing.assert_array_equal(regressors.predict([], [0, 1]).predictions, 0)
 if __name__ == '__main__':
     unittest.main()
 import hashlib
