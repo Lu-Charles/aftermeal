@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 from foodvision.features import meal_representations, normalize_embeddings
 from foodvision.models import CandidateRegressors, group_weights, lower_weighted_median
-from foodvision.benchmark import check_partition, group_mae
+from foodvision.selection import check_partition, evaluate_episode, group_mae
 
 class MethodChecks(unittest.TestCase):
 
@@ -40,6 +40,20 @@ class MethodChecks(unittest.TestCase):
         features = meal_representations(np.eye(2), np.eye(2))
         regressors = CandidateRegressors(features, [0.2, 0.8], ['a', 'b'])
         np.testing.assert_array_equal(regressors.predict([], [0, 1]).predictions, 0)
+
+    def test_outer_labels_do_not_change_model_selection_or_predictions(self):
+        rng = np.random.default_rng(5)
+        features = meal_representations(rng.normal(size=(7, 4)), rng.normal(size=(7, 4)))
+        rows = [{'record_id': str(i), 'group': str(i), 'similarity_component': str(i)} for i in range(7)]
+        episode = {'train': [0, 1, 2, 3, 4], 'test': [5, 6], 'budget': 5, 'inner': [{'train': [j for j in range(5) if j != i], 'validation': [i]} for i in range(5)]}
+        original = np.array([0.1, 0.4, 0.5, 0.9, 0.3, 0.0, 0.0])
+        altered = original.copy()
+        altered[5:] = [0.7, 1.0]
+        groups = [str(i) for i in range(7)]
+        first = evaluate_episode(rows, episode, CandidateRegressors(features, original, groups))
+        second = evaluate_episode(rows, episode, CandidateRegressors(features, altered, groups))
+        np.testing.assert_array_equal(first.selected_candidates, second.selected_candidates)
+        np.testing.assert_array_equal(first.test_forecasts.predictions, second.test_forecasts.predictions)
 if __name__ == '__main__':
     unittest.main()
 import hashlib
