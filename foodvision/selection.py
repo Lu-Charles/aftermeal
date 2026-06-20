@@ -33,8 +33,6 @@ def evaluate_episode(records, episode, regressors: CandidateRegressors) -> Episo
     test_ids = episode['test']
     if len(calibration_ids) != episode['budget'] or len(set(calibration_ids)) != len(calibration_ids):
         raise ValueError('Calibration IDs do not match the declared label budget.')
-    for partition in episode['inner']:
-        check_partition(records, partition['train'], partition['validation'])
     check_partition(records, calibration_ids, test_ids)
     calibration_positions = {record_id: index for index, record_id in enumerate(calibration_ids)}
     inner_predictions = np.full((len(CANDIDATES), len(calibration_ids)), np.nan)
@@ -44,6 +42,7 @@ def evaluate_episode(records, episode, regressors: CandidateRegressors) -> Episo
         validation_ids = partition['validation']
         if not set(training_ids + validation_ids).issubset(calibration_positions):
             raise ValueError('An inner fold uses records outside its calibration budget.')
+        check_partition(records, training_ids, validation_ids)
         predictions = regressors.predict(training_ids, validation_ids).predictions
         positions = [calibration_positions[record_id] for record_id in validation_ids]
         inner_predictions[:, positions] = predictions
