@@ -13,3 +13,10 @@ Use Python 3.12 and install `requirements.txt` in a virtual environment.
 Sample photographs are from LeFood-Set v1 (CC BY 4.0). Derived ACETADA
 features retain CC BY-NC 4.0 terms. Code and data licenses are separate.
 See [data attribution](docs/DATA.md) and [license](LICENSE).
+
+## Benchmark
+
+Run `python -m foodvision verify` and
+`python -m foodvision benchmark --output reports/my-benchmark.json`.
+Evaluation separates food/participant groups and similar-image components.
+Candidate selection uses inner validation only. Existing outputs are not overwritten.
