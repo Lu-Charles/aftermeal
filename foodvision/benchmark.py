@@ -26,6 +26,7 @@ def run(output: Path, root: Path=ROOT) -> dict:
     verify_payload(root)
     records = json.loads((root / 'data/records.json').read_text())
     episodes = json.loads((root / 'data/episodes.json').read_text())
+    references = json.loads((root / 'data/reference_predictions.json').read_text())
     with np.load(root / 'data/features.npz', allow_pickle=False) as features:
         if features['record_ids'].tolist() != [r['record_id'] for r in records]:
             raise ValueError('Feature and label row identifiers differ.')
@@ -41,7 +42,13 @@ def run(output: Path, root: Path=ROOT) -> dict:
         for episode in episodes:
             result = evaluate_episode(records, episode, regressors)
             ids = [0, int(result.selected_candidates[0]), int(result.selected_candidates[1])]
+            reference = references[episode['name']]
+            if ids != reference['candidate_ids']:
+                raise ValueError('Selected candidate differs from the saved benchmark reference.')
             raw = result.test_forecasts.predictions[ids]
+            expected = np.array(reference['raw_predictions'])
+            np.testing.assert_allclose(raw, expected, rtol=0, atol=1e-10)
+            maximum_difference = max(maximum_difference, float(np.max(np.abs(raw - expected))))
             train, test = (episode['train'], episode['test'])
             predictions[0, test] = np.average(targets[train], weights=group_weights(groups[train]))
             predictions[1:, test] = raw
