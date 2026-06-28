@@ -2,5 +2,8 @@
   "data/episodes.json": "36f272f9dbad5e22352bde4a37e18f25308d16ae57e6b26eb6ebfcd52781a742",
   "data/features.npz": "83154bb8c36683ee8e55d39616f5e8d752daa9243ae4c5aad777c1800317a7c9",
   "data/records.json": "307bd5bb50dd281bcab1b0f063ea5a8fce641fa74b86e049840aa9190d5dfdbe",
-  "data/reference_predictions.json": "d53219401b41c3aec7256f88068e8041d5b70325133e5d650ca7407a3c556c2f"
+  "data/reference_predictions.json": "d53219401b41c3aec7256f88068e8041d5b70325133e5d650ca7407a3c556c2f",
+  "models/demo_model.json": "f08b626ae3692df8a303945e1a96fc9b761e3f927224131a3a20d520c5b4d074",
+  "models/demo_model.npz": "9799bcf5f29384a953e48a91406f6309fbb00690615389c27a2d4189cd4e1c9b",
+  "examples/features.npz": "c0b9e042a33face1af6b354cc64a3ae366fdc5dac1b82aa0571c939ae25d4ecf"
 }
