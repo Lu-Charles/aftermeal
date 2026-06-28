@@ -20,3 +20,10 @@ Run `python -m foodvision verify` and
 `python -m foodvision benchmark --output reports/my-benchmark.json`.
 Evaluation separates food/participant groups and similar-image components.
 Candidate selection uses inner validation only. Existing outputs are not overwritten.
+
+Five folds per collection use 50 calibration labels per fit. Change-feature
+group-balanced MAE is 9.6330 percentage points on LeFood and 9.4585 on ACETADA.
+Appearance features perform slightly better on ACETADA. These results measure
+within-collection calibration, not transfer to new settings.
+
+See [model details](docs/MODEL.md) and [benchmark results](reports/benchmark.json).
