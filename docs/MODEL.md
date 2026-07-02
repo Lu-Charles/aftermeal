@@ -8,3 +8,5 @@ use inner-only parameter selection with equal-sized candidate banks.
 Five held-out folds per source use 50 calibration pairs. Groups and similarity
 components remain separate. Predictions are bounded to 0–1.25 for evaluation.
 This is within-collection evaluation, not a transfer or physical-volume claim.
+
+The compact demo head uses LeFood fold 0 cosine-change features. Install only base dependencies for sample predictions.
