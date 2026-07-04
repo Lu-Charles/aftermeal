@@ -1,0 +1,38 @@
+[
+  {
+    "id": "L81",
+    "title": "Tim",
+    "source": "LeFood",
+    "recorded_fraction": 0.2662337662,
+    "expected_prediction": 0.8013227315352864,
+    "before": "/examples/images/L81_before.jpg",
+    "after": "/examples/images/L81_after.jpg"
+  },
+  {
+    "id": "L133",
+    "title": "Tim",
+    "source": "LeFood",
+    "recorded_fraction": 0.0,
+    "expected_prediction": 0.04217373482549647,
+    "before": "/examples/images/L133_before.jpg",
+    "after": "/examples/images/L133_after.jpg"
+  },
+  {
+    "id": "L388",
+    "title": "Bali Tahu",
+    "source": "LeFood",
+    "recorded_fraction": 0.9428571429,
+    "expected_prediction": 0.8332498092359586,
+    "before": "/examples/images/L388_before.jpg",
+    "after": "/examples/images/L388_after.jpg"
+  },
+  {
+    "id": "L492",
+    "title": "Tempe bumbu bacem",
+    "source": "LeFood",
+    "recorded_fraction": 0.25,
+    "expected_prediction": 0.2906290943794474,
+    "before": "/examples/images/L492_before.jpg",
+    "after": "/examples/images/L492_after.jpg"
+  }
+]

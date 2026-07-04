@@ -5,5 +5,14 @@
   "data/reference_predictions.json": "d53219401b41c3aec7256f88068e8041d5b70325133e5d650ca7407a3c556c2f",
   "models/demo_model.json": "f08b626ae3692df8a303945e1a96fc9b761e3f927224131a3a20d520c5b4d074",
   "models/demo_model.npz": "9799bcf5f29384a953e48a91406f6309fbb00690615389c27a2d4189cd4e1c9b",
-  "examples/features.npz": "c0b9e042a33face1af6b354cc64a3ae366fdc5dac1b82aa0571c939ae25d4ecf"
+  "examples/examples.json": "e664e4ba184eaea036a1300bb4c0000a8b2642434267c62bc95ee2ac2a21795b",
+  "examples/features.npz": "c0b9e042a33face1af6b354cc64a3ae366fdc5dac1b82aa0571c939ae25d4ecf",
+  "examples/images/L133_after.jpg": "8abf5fd1fcc43a8bba516534dff7905188762f7e66db70d897dd0f8de8f2fd1d",
+  "examples/images/L133_before.jpg": "ddfb3b2e1e0f11e9713cefde3f78272b51e4f1bcca2992d819f0759fed1f03aa",
+  "examples/images/L388_after.jpg": "d3110746625c0ad7cfbc36ae157928d063b87165a48d913189f841bac11723d0",
+  "examples/images/L388_before.jpg": "944e42c0e45b6415292852f585bc85acd2c50207ed5aefa99b44c96792740ca7",
+  "examples/images/L492_after.jpg": "51c1e52d84492aff857f180da3d8ee7c8798680a9c946233a246e8fff03b5900",
+  "examples/images/L492_before.jpg": "7f5a7b8412c443862adbd9ceaab78f6d3c0bc20180f99002c23540fcc8cbc261",
+  "examples/images/L81_after.jpg": "8f28eb115f8e2bd04a4045289289ea6e6e7f1a808121e6f6a4f47fb93c9d6d6f",
+  "examples/images/L81_before.jpg": "cad2583d56b550030ffc125e5c44a478cf7eb84d52c9c90247eee84bd1d784a8"
 }

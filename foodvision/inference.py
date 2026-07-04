@@ -30,3 +30,12 @@ class Predictor:
         distance = np.maximum((features * features).sum(axis=1)[:, None] + (self.training * self.training).sum(axis=1)[None, :] - 2 * features @ self.training.T, 0)
         prediction = np.exp(-self.metadata['gamma'] * distance) @ self.duals + self.offset
         return np.clip(prediction, *self.metadata['bounds'])
+
+    def example(self, record_id: str) -> dict:
+        examples = json.loads((self.root / 'examples/examples.json').read_text())
+        index = next((i for i, item in enumerate(examples) if item['id'] == record_id), None)
+        if index is None:
+            raise ValueError('Unknown example.')
+        with np.load(self.root / 'examples/features.npz', allow_pickle=False) as features:
+            fraction = self.predict_embeddings(features['before'][[index]], features['after'][[index]])[0]
+        return {**examples[index], 'estimated_fraction': float(fraction), 'input_mode': 'saved image embeddings'}
