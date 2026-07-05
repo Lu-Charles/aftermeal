@@ -27,3 +27,8 @@ Appearance features perform slightly better on ACETADA. These results measure
 within-collection calibration, not transfer to new settings.
 
 See [model details](docs/MODEL.md) and [benchmark results](reports/benchmark.json).
+
+## Local demo
+
+Run `python -m foodvision demo` and open http://127.0.0.1:8765.
+Four held-out samples run from saved embeddings without PyTorch or model downloads.

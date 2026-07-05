@@ -9,6 +9,8 @@ def main():
     command = sub.add_parser('verify')
     command = sub.add_parser('benchmark')
     command.add_argument('--output', type=Path, default=Path('reports/my-benchmark.json'))
+    command = sub.add_parser('demo')
+    command.add_argument('--port', type=int, default=8765)
     args = parser.parse_args()
     if args.command == 'verify':
         from .benchmark import verify_payload
@@ -16,5 +18,8 @@ def main():
     if args.command == 'benchmark':
         from .benchmark import run
         print(json.dumps(run(args.output)['summary'], indent=2))
+    if args.command == 'demo':
+        from .server import serve
+        serve(args.port)
 if __name__ == '__main__':
     main()
