@@ -8,7 +8,7 @@ async function request(path, payload) {
 }
 function show(data) {
   $('estimate').textContent = `${(data.estimated_fraction*100).toFixed(1)}% estimated remaining`;
-  
+  $('reference').textContent=Number.isFinite(data.recorded_fraction) ? `Recorded: ${(data.recorded_fraction*100).toFixed(1)}%. Absolute error: ${(100*Math.abs(data.estimated_fraction-data.recorded_fraction)).toFixed(1)} percentage points.` : 'Accuracy on this pair is unknown without weighing.';
 }
 function photos() {
   for (const kind of ['before','after']) $(kind).src = originals[kind] || '';
