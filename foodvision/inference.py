@@ -50,6 +50,7 @@ class Predictor:
         fraction = self.predict_embeddings(features[[0]], features[[1]])[0]
         return {'status': 'estimated', 'estimated_fraction': float(fraction), 'input_mode': 'new photo encoding'}
 
+@lru_cache(maxsize=1)
 def image_encoder():
     try:
         import torch
@@ -59,6 +60,9 @@ def image_encoder():
     metadata = json.loads((ROOT / 'models/demo_model.json').read_text())
     torch.set_num_threads(4)
     encoder = torch.hub.load(metadata['encoder_repository'] + ':' + metadata['encoder_revision'], metadata['encoder_model'], trust_repo=True, skip_validation=True, verbose=False).eval().to('cpu')
+    weights = Path(torch.hub.get_dir()) / 'checkpoints/dinov2_vits14_pretrain.pth'
+    if hashlib.sha256(weights.read_bytes()).hexdigest() != metadata['encoder_weights_sha256']:
+        raise RuntimeError("Encoder weights differ from the model's recorded weights.")
     transform = transforms.Compose([transforms.Resize(256, interpolation=transforms.InterpolationMode.BICUBIC), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     return (encoder, transform, torch)
 
