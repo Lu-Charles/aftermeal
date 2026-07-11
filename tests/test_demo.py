@@ -2,11 +2,13 @@
 import base64
 from http.client import HTTPConnection
 from http.server import ThreadingHTTPServer
+import io
 import json
 import threading
 import unittest
+from PIL import Image
 from foodvision.benchmark import verify_payload
-from foodvision.inference import Predictor, ROOT
+from foodvision.inference import Predictor, decode_image, MAX_IMAGE_BYTES, ROOT
 from foodvision.server import make_handler
 
 class DemoModelChecks(unittest.TestCase):
@@ -34,6 +36,17 @@ class DemoModelChecks(unittest.TestCase):
     def test_unknown_example_is_rejected(self):
         with self.assertRaises(ValueError):
             Predictor().example('not-a-record')
+
+    def test_malformed_and_oversized_images_are_rejected(self):
+        for content in (b'', b'not an image', b'a' * (MAX_IMAGE_BYTES + 1)):
+            with self.assertRaises(ValueError):
+                decode_image(content)
+
+    def test_rgba_png_becomes_rgb(self):
+        stream = io.BytesIO()
+        Image.new('RGBA', (12, 10), (255, 0, 0, 100)).save(stream, format='PNG')
+        image = decode_image(stream.getvalue())
+        self.assertEqual((image.mode, image.size), ('RGB', (12, 10)))
 
 class HttpChecks(unittest.TestCase):
 

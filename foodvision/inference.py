@@ -13,6 +13,20 @@ MAX_IMAGE_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_PIXELS = 20000000
 ENCODER_LOCK = threading.Lock()
 
+def decode_image(payload: bytes) -> Image.Image:
+    if not payload or len(payload) > MAX_IMAGE_BYTES:
+        raise ValueError('Each photo must be a nonempty JPEG or PNG smaller than 8 MB.')
+    try:
+        with Image.open(io.BytesIO(payload)) as source:
+            if source.format not in {'JPEG', 'PNG'}:
+                raise ValueError('Please choose JPEG or PNG photos.')
+            if source.width * source.height > MAX_IMAGE_PIXELS:
+                raise ValueError('Resize photos to at most 20 megapixels.')
+            source.load()
+            return ImageOps.exif_transpose(source).convert('RGB')
+    except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
+        raise ValueError('The photo could not be decoded. Please use a valid JPEG or PNG.') from exc
+
 class Predictor:
 
     def __init__(self, root: Path=ROOT):
@@ -42,6 +56,8 @@ class Predictor:
 
     def photos(self, before: bytes, after: bytes, starting_portion=None) -> dict:
         images = [decode_image(before), decode_image(after)]
+        if any((min(image.size) < 224 for image in images)):
+            raise ValueError('Photo must be at least 224 × 224 pixels.')
         with ENCODER_LOCK:
             encoder, transform, torch = image_encoder()
             batch = torch.stack([transform(image) for image in images])
@@ -65,9 +81,3 @@ def image_encoder():
         raise RuntimeError("Encoder weights differ from the model's recorded weights.")
     transform = transforms.Compose([transforms.Resize(256, interpolation=transforms.InterpolationMode.BICUBIC), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     return (encoder, transform, torch)
-
-def decode_image(payload):
-    with Image.open(io.BytesIO(payload)) as image:
-        if image.format not in {'JPEG', 'PNG'}:
-            raise ValueError('Please choose JPEG or PNG photos.')
-        return image.convert('RGB')
