@@ -32,3 +32,7 @@ See [model details](docs/MODEL.md) and [benchmark results](reports/benchmark.jso
 
 Run `python -m foodvision demo` and open http://127.0.0.1:8765.
 Four held-out samples run from saved embeddings without PyTorch or model downloads.
+
+For new photos, install `requirements-images.txt`. Use
+`python -m foodvision predict --before before.jpg --after after.jpg`.
+The optional frozen DINOv2 encoder runs locally and downloads pinned weights separately.

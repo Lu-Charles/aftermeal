@@ -39,3 +39,31 @@ class Predictor:
         with np.load(self.root / 'examples/features.npz', allow_pickle=False) as features:
             fraction = self.predict_embeddings(features['before'][[index]], features['after'][[index]])[0]
         return {**examples[index], 'estimated_fraction': float(fraction), 'input_mode': 'saved image embeddings'}
+
+    def photos(self, before: bytes, after: bytes, starting_portion=None) -> dict:
+        images = [decode_image(before), decode_image(after)]
+        with ENCODER_LOCK:
+            encoder, transform, torch = image_encoder()
+            batch = torch.stack([transform(image) for image in images])
+            with torch.inference_mode():
+                features = encoder(batch).cpu().numpy().astype(np.float64)
+        fraction = self.predict_embeddings(features[[0]], features[[1]])[0]
+        return {'status': 'estimated', 'estimated_fraction': float(fraction), 'input_mode': 'new photo encoding'}
+
+def image_encoder():
+    try:
+        import torch
+        from torchvision import transforms
+    except ImportError as exc:
+        raise RuntimeError('New-photo analysis needs PyTorch. Run: pip install -r requirements-images.txt') from exc
+    metadata = json.loads((ROOT / 'models/demo_model.json').read_text())
+    torch.set_num_threads(4)
+    encoder = torch.hub.load(metadata['encoder_repository'] + ':' + metadata['encoder_revision'], metadata['encoder_model'], trust_repo=True, skip_validation=True, verbose=False).eval().to('cpu')
+    transform = transforms.Compose([transforms.Resize(256, interpolation=transforms.InterpolationMode.BICUBIC), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    return (encoder, transform, torch)
+
+def decode_image(payload):
+    with Image.open(io.BytesIO(payload)) as image:
+        if image.format not in {'JPEG', 'PNG'}:
+            raise ValueError('Please choose JPEG or PNG photos.')
+        return image.convert('RGB')
