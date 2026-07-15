@@ -36,3 +36,5 @@ Four held-out samples run from saved embeddings without PyTorch or model downloa
 For new photos, install `requirements-images.txt`. Use
 `python -m foodvision predict --before before.jpg --after after.jpg`.
 The optional frozen DINOv2 encoder runs locally and downloads pinned weights separately.
+
+The browser also accepts JPEG and PNG photo pairs for local analysis.

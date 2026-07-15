@@ -37,3 +37,21 @@ async function start() {
   }
 }
 start().catch(error=>$('status').textContent=error.message);
+
+for(const kind of ['before','after']) $(kind+'-file').addEventListener('change', async event=>{
+  const file=event.target.files[0]; if(!file)return;
+  if(!['image/jpeg','image/png'].includes(file.type)||file.size>8*1024*1024){$('status').textContent='Choose JPEG or PNG under 8 MB.';return;}
+  const value=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
+  if(current){current=null;originals={};uploaded={};} highlights=null;
+  originals[kind]=value;uploaded[kind]=value.split(',')[1];photos();$('estimate').textContent='Ready when both photos are selected.';
+});
+$('analyze').addEventListener('click',async()=>{
+  try {
+    if(!uploaded.before||!uploaded.after)throw new Error('Choose both photos.');
+    $('analyze').disabled=true;$('status').textContent='Analyzing…';
+    
+    const data=await request('/api/predict',{...uploaded,starting_portion:$('starting').value||null});
+    if(data.status==='rejected'||data.status==='needs_review')throw new Error(data.input_checks.issues.map(x=>x.message).join(' '));
+    show(data);$('status').textContent='';
+  }catch(error){$('status').textContent=error.message;}finally{$('analyze').disabled=false;}
+});

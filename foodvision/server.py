@@ -83,7 +83,8 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 if 'example_id' in data:
                     result = predictor.example(data['example_id'])
                 else:
-                    raise ValueError('Choose a sample ID.')
+                    images = [base64.b64decode(data[key], validate=True) for key in ('before', 'after')]
+                    result = predictor.photos(*images)
                 return self.send(200, result)
             except (ValueError, KeyError, TypeError, binascii.Error) as exc:
                 return self.send(400, {'error': str(exc)})
