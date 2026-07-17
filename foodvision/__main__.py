@@ -14,6 +14,8 @@ def main():
     command = sub.add_parser('predict')
     command.add_argument('--before', type=Path, required=True)
     command.add_argument('--after', type=Path, required=True)
+    command = sub.add_parser('diagnose')
+    command.add_argument('--output', type=Path, default=Path('reports/my-diagnose.json'))
     args = parser.parse_args()
     if args.command == 'verify':
         from .benchmark import verify_payload
@@ -27,5 +29,8 @@ def main():
     if args.command == 'predict':
         from .inference import Predictor
         print(json.dumps(Predictor().photos(args.before.read_bytes(), args.after.read_bytes()), indent=2))
+    if args.command == 'diagnose':
+        from .diagnostics import run
+        print(json.dumps(run(args.output)['summary'], indent=2))
 if __name__ == '__main__':
     main()
