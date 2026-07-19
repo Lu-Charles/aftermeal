@@ -1,0 +1,83 @@
+{
+  "design": "Five outer folds per source, one fixed calibration repetition, 50 labels per fit; nested grouped selection with similarity purges.",
+  "scope": "Compact feature-cache benchmark. It does not retrain the image encoder or reproduce the separate CNN study.",
+  "episodes": 10,
+  "records": 1316,
+  "label_budget": 50,
+  "summary": {
+    "LeFood": {
+      "records": 524,
+      "groups": 34,
+      "mae_percentage_points": {
+        "Mean": 39.6940542536416,
+        "Median": 40.145147630971884,
+        "Appearance": 14.645559922977263,
+        "Change": 9.633011802843114
+      }
+    },
+    "ACETADA": {
+      "records": 792,
+      "groups": 152,
+      "mae_percentage_points": {
+        "Mean": 10.861283270218,
+        "Median": 10.362273330881742,
+        "Appearance": 9.080428433425597,
+        "Change": 9.458527228716363
+      }
+    }
+  },
+  "selections": [
+    {
+      "episode": "ACETADA_fold0_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 29
+    },
+    {
+      "episode": "ACETADA_fold1_repeat0_n50",
+      "appearance_candidate": 2,
+      "change_candidate": 30
+    },
+    {
+      "episode": "ACETADA_fold2_repeat0_n50",
+      "appearance_candidate": 13,
+      "change_candidate": 29
+    },
+    {
+      "episode": "ACETADA_fold3_repeat0_n50",
+      "appearance_candidate": 2,
+      "change_candidate": 26
+    },
+    {
+      "episode": "ACETADA_fold4_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 45
+    },
+    {
+      "episode": "LeFood_fold0_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 41
+    },
+    {
+      "episode": "LeFood_fold1_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 41
+    },
+    {
+      "episode": "LeFood_fold2_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 45
+    },
+    {
+      "episode": "LeFood_fold3_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 45
+    },
+    {
+      "episode": "LeFood_fold4_repeat0_n50",
+      "appearance_candidate": 1,
+      "change_candidate": 42
+    }
+  ],
+  "maximum_reference_prediction_difference": 0.0,
+  "elapsed_seconds": 0.342
+}

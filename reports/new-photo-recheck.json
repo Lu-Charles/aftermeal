@@ -1,0 +1,44 @@
+[
+  {
+    "id": "L133",
+    "recorded_fraction": 0.0,
+    "estimated_fraction": 0.042173929695671575,
+    "input_mode": "new photo encoding",
+    "seconds": 62.70142312487587
+  },
+  {
+    "id": "L81",
+    "recorded_fraction": 0.2662337662,
+    "estimated_fraction": 0.8013221200258442,
+    "input_mode": "new photo encoding",
+    "seconds": 0.1225150409154594
+  },
+  {
+    "id": "L82",
+    "recorded_fraction": 0.0344827586,
+    "estimated_fraction": 0.25705450442683286,
+    "input_mode": "new photo encoding",
+    "seconds": 0.07636124989949167
+  },
+  {
+    "id": "L400",
+    "recorded_fraction": 0.0,
+    "estimated_fraction": 0.8840041172721911,
+    "input_mode": "new photo encoding",
+    "seconds": 0.068315832875669
+  },
+  {
+    "id": "L117",
+    "recorded_fraction": 0.0,
+    "estimated_fraction": 0.6984520230640214,
+    "input_mode": "new photo encoding",
+    "seconds": 0.06719541596248746
+  },
+  {
+    "id": "L476",
+    "recorded_fraction": 0.0,
+    "estimated_fraction": 0.33129132675760786,
+    "input_mode": "new photo encoding",
+    "seconds": 0.06940795900300145
+  }
+]
