@@ -1,0 +1,163 @@
+{
+  "scope": "Source mapping and byte identity only; not validation of physical mass or visual labels.",
+  "workbook": "LeFood-Set/data_original.xlsx",
+  "workbook_sha256": "82bacc92b57164e0ab74b0908c662dbfc0428ed4d230fb0ff04ac93176042fff",
+  "source_rows": 678,
+  "matched_packaged_pairs": 524,
+  "checked_raw_images": 1048,
+  "review_selection": "Explicit diagnostic IDs; not a random sample.",
+  "review_pairs": [
+    {
+      "record_id": "L133",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A132:G132",
+      "before_g": 152,
+      "after_g": 0,
+      "recorded_fraction": 0.0,
+      "images": {
+        "before": {
+          "filename": "002_112_DSC_0167_bef.JPG",
+          "sha256": "ddfb3b2e1e0f11e9713cefde3f78272b51e4f1bcca2992d819f0759fed1f03aa"
+        },
+        "after": {
+          "filename": "002_112_DSC_0212_aft.JPG",
+          "sha256": "8abf5fd1fcc43a8bba516534dff7905188762f7e66db70d897dd0f8de8f2fd1d"
+        }
+      }
+    },
+    {
+      "record_id": "L400",
+      "food": "Bali Tahu",
+      "sheet": "new_sheet_name",
+      "range": "A389:G389",
+      "before_g": 30,
+      "after_g": 0,
+      "recorded_fraction": 0.0,
+      "images": {
+        "before": {
+          "filename": "023_478_DSC_0064_bef.JPG",
+          "sha256": "c6b33b2f7e08dccbf029d0b3472f7de40c3d028c7923961100c0e9d85075b13d"
+        },
+        "after": {
+          "filename": "023_478_DSC_0070_aft.JPG",
+          "sha256": "90a834b8ab027870945f172411a4853d3f2002ca6331b8efbc530cefa51322c8"
+        }
+      }
+    },
+    {
+      "record_id": "L117",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A117:G117",
+      "before_g": 162,
+      "after_g": 0,
+      "recorded_fraction": 0.0,
+      "images": {
+        "before": {
+          "filename": "002_081_DSC_0859_bef.JPG",
+          "sha256": "48def67517d4b5e94c9b88573b62cc7266e67bbbc56b0c96a8a677b66f3bd056"
+        },
+        "after": {
+          "filename": "002_081_DSC_0891_aft.JPG",
+          "sha256": "d63a8194c8ee1ea18c3e6a0d3970679b8fb9be3999e66c71257cacc424af0a1e"
+        }
+      }
+    },
+    {
+      "record_id": "L476",
+      "food": "Tempe bumbu bacem",
+      "sheet": "new_sheet_name",
+      "range": "A462:G462",
+      "before_g": 32,
+      "after_g": 0,
+      "recorded_fraction": 0.0,
+      "images": {
+        "before": {
+          "filename": "029_447_DSC_0340_bef.JPG",
+          "sha256": "394caced3cc3f7a9abdd6ab50b72bf2ba3eb1d0336fc27ad3a1786f2d9e7f39d"
+        },
+        "after": {
+          "filename": "029_447_DSC_0784_aft.JPG",
+          "sha256": "89a49e52c2f5ba32727181f674f4d478a6ab46990fbcb80c5c572c10a78c15a5"
+        }
+      }
+    },
+    {
+      "record_id": "L81",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A81:G81",
+      "before_g": 154,
+      "after_g": 41,
+      "recorded_fraction": 0.2662337662,
+      "images": {
+        "before": {
+          "filename": "002_004_DSC_0057_bef.JPG",
+          "sha256": "cad2583d56b550030ffc125e5c44a478cf7eb84d52c9c90247eee84bd1d784a8"
+        },
+        "after": {
+          "filename": "002_004_DSC_0085_aft.JPG",
+          "sha256": "8f28eb115f8e2bd04a4045289289ea6e6e7f1a808121e6f6a4f47fb93c9d6d6f"
+        }
+      }
+    },
+    {
+      "record_id": "L82",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A82:G82",
+      "before_g": 174,
+      "after_g": 6,
+      "recorded_fraction": 0.0344827586,
+      "images": {
+        "before": {
+          "filename": "002_005_DSC_0056_bef.JPG",
+          "sha256": "b8856fa8cf0f9ea25a9e2dda6082871bf18d4dfda1547f1f78a619c3d1e3f846"
+        },
+        "after": {
+          "filename": "002_005_DSC_0082_aft.JPG",
+          "sha256": "08e21c8e7ab2dfbe5541a62f0760c146fee27c173f10c0b492578efd42969fc5"
+        }
+      }
+    },
+    {
+      "record_id": "L113",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A113:G113",
+      "before_g": 129,
+      "after_g": 2,
+      "recorded_fraction": 0.015503876000000002,
+      "images": {
+        "before": {
+          "filename": "002_071_DSC_0742_bef.JPG",
+          "sha256": "5a80b16bb721dc47494241ec6859c91ecb733eabbc892caa73cd276c8a84afa0"
+        },
+        "after": {
+          "filename": "002_071_DSC_0782_aft.JPG",
+          "sha256": "b9e7273765db7055a9b0d301f7730c829fcedbef27b13f29d97759286ff7d2cc"
+        }
+      }
+    },
+    {
+      "record_id": "L142",
+      "food": "Tim",
+      "sheet": "new_sheet_name",
+      "range": "A140:G140",
+      "before_g": 174,
+      "after_g": 1,
+      "recorded_fraction": 0.0057471264,
+      "images": {
+        "before": {
+          "filename": "002_130_DSC_0313_bef.JPG",
+          "sha256": "c391b7661a71f6680d9f212f5647df20c9e861f32194ecb8b6cfef9482dcd430"
+        },
+        "after": {
+          "filename": "002_130_DSC_0362_aft.JPG",
+          "sha256": "600bf9d02f5202a4516089033bd3493f7e6d235ea36e0ceadcbfc8ff57798f90"
+        }
+      }
+    }
+  ]
+}
