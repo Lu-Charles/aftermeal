@@ -1,0 +1,40 @@
+{
+  "protocol_version": 1,
+  "status": "frozen before segmentation extraction and mass evaluation",
+  "scope": "LeFood development comparison only; all 524 pairs and five existing episodes; no records excluded or relabeled",
+  "target": "original recorded mass_after / mass_before",
+  "model": {
+    "repository": "mawiie/food-segmentation-mobilenet",
+    "revision": "93d8c84b121ecce76ed752be538e01d72df15825",
+    "weights": "best_model.pth",
+    "sha256": "6ecc4da2210d8a2128f6a79670d40f25c8f5ffbf11b3358689669c431896600f",
+    "architecture": "DeepLabV3Plus, mobilenet_v2, 104 classes",
+    "model_license": "MIT per author's model card",
+    "training_data": "FoodSeg103 per author's model card; no new dataset download or redistribution",
+    "preprocessing": "EXIF orientation, RGB, resize full image to 512x512 bilinear, ImageNet normalization. Full-frame resize is an explicit transfer choice; author validation used center crop.",
+    "binary_rule": "argmax over 104 classes is nonzero; background=0; no tuned probability or area threshold",
+    "role": "frozen predicted features; not ground-truth masks"
+  },
+  "per_image_features": ["food_area_fraction", "food_probability_mean", "food_probability_std", "foreground_bbox_area_fraction", "foreground_centroid_x", "foreground_centroid_y"],
+  "pair_features": "concatenate before, after, after-minus-before and after-area / max(before-area, one 512x512 pixel), with ratio clipped to [0,2]",
+  "feature_scaling": "mean and standard deviation fitted on the current training partition only; constant-feature scale=1; divide by sqrt(number of features)",
+  "arms": ["original Change", "original Appearance", "segmentation features", "combined cosine-change and segmentation features"],
+  "segmentation_and_combined_search": {
+    "kernel": "RBF",
+    "gammas": [0.5, 2, 8],
+    "alphas": [0.01, 0.1, 1, 10],
+    "median_control": true,
+    "offset": "lower group-weighted median",
+    "training_weights": "equal total weight per original food group",
+    "selection": "minimum group-balanced MAE over original inner folds; ordered first minimum",
+    "bounds": [0, 1.25]
+  },
+  "split_checks": ["record_id", "group", "similarity_component", "dependency_block", "original image file identity before and after"],
+  "primary_metric": "group-balanced MAE in percentage points",
+  "diagnostics": ["recorded-zero MAE", "positive <=10% MAE", "zero-labeled predictions >10%", "small-positive predictions <=1%", "per-fold metrics"],
+  "uncertainty": "paired bootstrap of dependency blocks, 2000 resamples, seed 20261003, retaining original group-balanced MAE within each sampled block collection",
+  "proposed_gates": {"relative_MAE_reduction_minimum": 0.2, "small_positive_MAE_increase_maximum_pp": 1, "recorded_zero_over_10_count_ratio_maximum": 0.5, "paired_MAE_difference_CI_upper_bound_pp": 0},
+  "gate_caveat": "Zero-label gates are provisional until source conflicts are resolved. No claim of human-verified empty-plate performance or validated mask IoU.",
+  "pseudo_label_policy": "AI review labels are proposals with provenance and human_review=pending. Never overwrite mass labels; never use AI-produced labels as a gold test set; never train on held-out-image pseudo-labels for these folds. LLM mass guesses are excluded.",
+  "deployment": "Retain current demo model until adoption criteria and independent mask/source review support a change. No category pivot."
+}

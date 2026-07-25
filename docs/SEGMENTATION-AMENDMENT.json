@@ -1,0 +1,8 @@
+{
+  "timing": "After frozen image feature extraction; first mass evaluation stopped at boundary validation before any fold predictions or results.",
+  "reason": "Protocol v1 incorrectly treated dependency_block as a disjoint fitting boundary. Original research uses record-level similarity_component purging for fitting and broader group-union dependency blocks for bootstrap uncertainty. One block joins 18 groups and crosses all five original folds. Original research protocol was reread to verify this distinction.",
+  "fitting_boundaries": ["record_id", "group", "similarity_component", "original image SHA256 across either image role"],
+  "dependency_block_policy": "Report overlap; retain blocks for bootstrap uncertainty. Do not claim independence of these broader blocks across fitting boundaries.",
+  "unchanged": "All original episodes, 524 records, 50-label budgets, features, grids, metrics, gates and raw image hashes. No relabeling, exclusion or feature re-extraction.",
+  "interpretation": "Retrospective comparison on original purged development folds, not new-serving or dependency-block-held-out generalization."
+}
