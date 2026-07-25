@@ -16,6 +16,9 @@ def main():
     command.add_argument('--after', type=Path, required=True)
     command = sub.add_parser('diagnose')
     command.add_argument('--output', type=Path, default=Path('reports/my-diagnose.json'))
+    command = sub.add_parser('segment-cache')
+    command.add_argument('--research-root', type=Path, required=True)
+    command.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.command == 'verify':
         from .benchmark import verify_payload
@@ -32,5 +35,8 @@ def main():
     if args.command == 'diagnose':
         from .diagnostics import run
         print(json.dumps(run(args.output)['summary'], indent=2))
+    if args.command == 'segment-cache':
+        from .segmentation import extract
+        extract(args.research_root, args.output)
 if __name__ == '__main__':
     main()

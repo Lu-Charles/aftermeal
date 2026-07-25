@@ -1,0 +1,2 @@
+-r requirements-images.txt
+segmentation-models-pytorch==0.5.0
