@@ -19,6 +19,9 @@ def main():
     command = sub.add_parser('segment-cache')
     command.add_argument('--research-root', type=Path, required=True)
     command.add_argument('--output', type=Path, required=True)
+    command = sub.add_parser('segmentation-experiment')
+    command.add_argument('--cache', type=Path, required=True)
+    command.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.command == 'verify':
         from .benchmark import verify_payload
@@ -38,5 +41,8 @@ def main():
     if args.command == 'segment-cache':
         from .segmentation import extract
         extract(args.research_root, args.output)
+    if args.command == 'segmentation-experiment':
+        from .segmentation_experiment import run
+        run(args.cache, args.output)
 if __name__ == '__main__':
     main()
