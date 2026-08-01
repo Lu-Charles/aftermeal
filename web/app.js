@@ -12,7 +12,7 @@ function show(data) {
 }
 function photos() {
   for (const kind of ['before','after']) $(kind).src = originals[kind] || '';
-  
+  if ($('highlight').checked) for (const kind of ['before','after']) { const path=current ? `/examples/images/overlays/${current.id}_${kind}.jpg` : highlights?.[kind]; if(path) $(kind).src=path; }
 }
 async function choose(example) {
   current = example; highlights = null; originals = {before:example.before,after:example.after}; photos();
@@ -37,6 +37,9 @@ async function start() {
   }
 }
 start().catch(error=>$('status').textContent=error.message);
+
+$('highlight').addEventListener('change',photos);
+for(const kind of ['before','after']) $(kind).addEventListener('error',()=>{if($('highlight').checked){$('highlight').checked=false;photos();$('highlight-status').textContent='Highlight unavailable; showing originals.';}});
 
 for(const kind of ['before','after']) $(kind+'-file').addEventListener('change', async event=>{
   const file=event.target.files[0]; if(!file)return;

@@ -38,3 +38,5 @@ For new photos, install `requirements-images.txt`. Use
 The optional frozen DINOv2 encoder runs locally and downloads pinned weights separately.
 
 The browser also accepts JPEG and PNG photo pairs for local analysis.
+
+Optional food highlights are an inspection aid; they do not change percentage estimates.

@@ -1,0 +1,84 @@
+{
+  "kind": "frozen_model_prediction_not_ground_truth",
+  "model": {
+    "repository": "mawiie/food-segmentation-mobilenet",
+    "revision": "93d8c84b121ecce76ed752be538e01d72df15825",
+    "weights": "best_model.pth",
+    "sha256": "6ecc4da2210d8a2128f6a79670d40f25c8f5ffbf11b3358689669c431896600f",
+    "architecture": "DeepLabV3Plus, mobilenet_v2, 104 classes",
+    "model_license": "MIT per author's model card",
+    "training_data": "FoodSeg103 per author's model card; no new dataset download or redistribution",
+    "preprocessing": "EXIF orientation, RGB, resize full image to 512x512 bilinear, ImageNet normalization. Full-frame resize is an explicit transfer choice; author validation used center crop.",
+    "binary_rule": "argmax over 104 classes is nonzero; background=0; no tuned probability or area threshold",
+    "role": "frozen predicted features; not ground-truth masks"
+  },
+  "cache_manifest_sha256": "f3dad68ac764bf60301b20a9f16bf18cdb8568a597000e80cae210b40628493d",
+  "rendering": "Unedited argmax food mask, nearest-neighbor resize, blue RGB(0,140,255) at 35% opacity",
+  "affects_percentage_estimate": false,
+  "images": [
+    {
+      "record_id": "L81",
+      "role": "before",
+      "source_sha256": "cad2583d56b550030ffc125e5c44a478cf7eb84d52c9c90247eee84bd1d784a8",
+      "mask_sha256": "7717bd5b058793bae50dfa4624f6f8154e0375204b1852f3efacada2f0ff2f45",
+      "output": "examples/images/overlays/L81_before.jpg",
+      "sha256": "e88e2187d3d19ffb05e3689c394a4ef01356f5e47ffdd9f095f8a77c301a11df"
+    },
+    {
+      "record_id": "L81",
+      "role": "after",
+      "source_sha256": "8f28eb115f8e2bd04a4045289289ea6e6e7f1a808121e6f6a4f47fb93c9d6d6f",
+      "mask_sha256": "8dce0e9cc2a51f65ef073602b65a7f35fbcd4323ca2342aa2d32225e305cb39e",
+      "output": "examples/images/overlays/L81_after.jpg",
+      "sha256": "f9327b87f91dfe25ca8676453d06ebf928e42d64791571aed1f5d7be506af663"
+    },
+    {
+      "record_id": "L133",
+      "role": "before",
+      "source_sha256": "ddfb3b2e1e0f11e9713cefde3f78272b51e4f1bcca2992d819f0759fed1f03aa",
+      "mask_sha256": "0ecf1d832e6856103d32af14160d275418c1a6da75f00d4496b572658a48e06f",
+      "output": "examples/images/overlays/L133_before.jpg",
+      "sha256": "96ca71ea484b88f1cc5743476ff4273d23caed9af62c7d207aa310fd2e8e6228"
+    },
+    {
+      "record_id": "L133",
+      "role": "after",
+      "source_sha256": "8abf5fd1fcc43a8bba516534dff7905188762f7e66db70d897dd0f8de8f2fd1d",
+      "mask_sha256": "ae441bf8bbadba19afda06f96a3afa0d359e366b31cece244764074e79d12387",
+      "output": "examples/images/overlays/L133_after.jpg",
+      "sha256": "269c81156c8af4dc518af5f162d906bc538f64affd4a4964413090c0367152c8"
+    },
+    {
+      "record_id": "L388",
+      "role": "before",
+      "source_sha256": "944e42c0e45b6415292852f585bc85acd2c50207ed5aefa99b44c96792740ca7",
+      "mask_sha256": "1038fc53aea972c0d1ae4e26252a97e6940dd9c83d098998ae5b2316d709daef",
+      "output": "examples/images/overlays/L388_before.jpg",
+      "sha256": "aef42b85721109be7b7675d53f117c41e7d047e2ec2c9ec7e282a1696468df16"
+    },
+    {
+      "record_id": "L388",
+      "role": "after",
+      "source_sha256": "d3110746625c0ad7cfbc36ae157928d063b87165a48d913189f841bac11723d0",
+      "mask_sha256": "4680558ab1108600f721fcca0f99392a75a2d8419ac4b345bd70d57cb0c83abf",
+      "output": "examples/images/overlays/L388_after.jpg",
+      "sha256": "694b02b9f4b2ee1b1559d7cb55b987e3f2f0b3a861b767e2cd5acd3aa11741c1"
+    },
+    {
+      "record_id": "L492",
+      "role": "before",
+      "source_sha256": "7f5a7b8412c443862adbd9ceaab78f6d3c0bc20180f99002c23540fcc8cbc261",
+      "mask_sha256": "d73ecfe8ddcf3626ab1700d178b6ed0241089f4fc7c6dbb699d2f54df9d29557",
+      "output": "examples/images/overlays/L492_before.jpg",
+      "sha256": "76b5f480508de1c3dbf8290cb54817233a649783ca385739ba78d2c524d844c6"
+    },
+    {
+      "record_id": "L492",
+      "role": "after",
+      "source_sha256": "51c1e52d84492aff857f180da3d8ee7c8798680a9c946233a246e8fff03b5900",
+      "mask_sha256": "257e99014b6742b2104f5d0fa040ce142e599450a88368d8d745c621c8788502",
+      "output": "examples/images/overlays/L492_after.jpg",
+      "sha256": "9339f22d72ec4b39d3a4a2ad8db456930d3a04518dbf0e0d67c953c3735dcaf4"
+    }
+  ]
+}
