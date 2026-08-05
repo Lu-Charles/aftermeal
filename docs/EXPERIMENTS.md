@@ -6,3 +6,5 @@ and change baselines using the same grouped folds. LeFood error increased from
 The deployed compact estimator is retained.
 
 [Segmentation results](../reports/segmentation-experiment.json).
+
+Visual proposals are review aids, not corrected source masses or evaluation labels.

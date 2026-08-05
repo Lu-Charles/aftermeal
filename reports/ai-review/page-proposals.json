@@ -1,0 +1,43 @@
+{
+  "reviewer": "Automated visual screening; model version not recorded",
+  "method": "Visual inspection of 22 contact sheets showing ID, before and after only. Some example pairs were previously inspected with labels, so this is not an independently blinded review.",
+  "codes": {
+    "F": "Visible food-like portion or clump",
+    "R": "No clear portion; may contain stains, residue or tiny crumbs. Does not assert zero mass.",
+    "U": "Uncertain whether visible material is food, bone, sauce or residue"
+  },
+  "human_review": "pending",
+  "evaluation_gold": false,
+  "training_eligible": false,
+  "pages": {
+    "1": "F F F R F F F R F F F U F R F F F R R F F R R F",
+    "2": "R F F F F F F R F U R F R R F R F F R R F F F R",
+    "3": "F R F F R F R R F F R F F F U F F F F F F F F R",
+    "4": "F R F U R R R F F F F F F R R F F F U R R R U F",
+    "5": "R R F F F F F F F F R F R F U R F F F F R U F F",
+    "6": "R F R F F F R F R F R F F R R R R R R F F U F F",
+    "7": "F F F F F U R F F F F F F R R R R F F R R F R R",
+    "8": "F R R R F R R F U F F U U F F R R U F F F F R F",
+    "9": "F R F F F R R R F F U R F R R R F R R F R F U F",
+    "10": "R R R R R R F F F F F R F R U R F R F U R R R U",
+    "11": "U F F F F F F U F F R F U F R F F F F F R F F F",
+    "12": "F F F F F U R F F R U U F F F R R U R U U R F U",
+    "13": "R R F F R F R F F U F F R R U R R F R F F R F R",
+    "14": "F F R R R F F R R R F U F F R R F F R F R F F R",
+    "15": "R F F F F R F R F F F F F F R F F R R R R R R F",
+    "16": "F R R R R F R F R R F R R F R R F F F R F F R F",
+    "17": "R F R F R R F R R F R F F F F R R R F R R R R R",
+    "18": "R F F F R F R F R R R R R R F F F R R F F F F R",
+    "19": "F F R F U F F R F F R R F F R R F F R F R F F R",
+    "20": "R F R R R R F F R F R F F R R R R F F R F R R F",
+    "21": "F F F R F F F F F F R R F F R F F R F F F R R R",
+    "22": "R F R F U F F R F F F F F F F F R F F F"
+  },
+  "before_overrides": {
+    "L476": "R"
+  },
+  "notes": {
+    "L476": "Before photograph appears empty despite positive recorded starting mass; needs full-resolution/source review.",
+    "L203": "Container/view changes between photographs; review comparability."
+  }
+}
