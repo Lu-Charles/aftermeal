@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 from foodvision.segmentation import mask_features, pair_features
 from foodvision.segmentation_experiment import check_boundaries, nested_forecast, standardized
+from scripts.build_review_queue import assemble
 
 class SegmentationChecks(unittest.TestCase):
 
@@ -43,5 +44,13 @@ class SegmentationChecks(unittest.TestCase):
             check_boundaries(records, provenance, [0], [1])
         provenance[1]['after']['sha256'] = 'd'
         self.assertEqual(check_boundaries(records, provenance, [0], [1]), ['broad'])
+
+    def test_ai_proposals_cannot_arrive_as_gold(self):
+        with self.assertRaisesRegex(ValueError, 'unverified AI'):
+            assemble({'human_review': 'pending', 'evaluation_gold': True, 'training_eligible': False}, [], {})
+
+    def test_incomplete_review_sheet_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'every cell'):
+            assemble({'human_review': 'pending', 'evaluation_gold': False, 'training_eligible': False, 'pages': {'1': 'F'}}, [{}, {}], {})
 if __name__ == '__main__':
     unittest.main()
