@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Aftermeal — Review lab</title><link rel="icon" href="data:,">
+ <link rel="stylesheet" href="/web/style.css"><link rel="stylesheet" href="/web/lab.css">
+ <script src="/web/lab.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#review">Skip to review</a>
+<header class="header"><a class="brand" href="/">Aftermeal</a><nav class="lab-nav" aria-label="Project"><a href="/">Workspace</a><a href="/#benchmark">Benchmark</a><a href="/lab" aria-current="page">Review lab</a></nav></header>
+<main>
+ <div class="lab-heading"><h1>Dataset review</h1><p>Local development tool · 524 source pairs</p></div>
+ <details id="experiment"><summary>Latest experiment: segmentation did not improve estimates <span aria-hidden="true">+</span></summary><div id="experiment-results"></div><p>524 LeFood pairs · five grouped folds · 50 calibration labels per fit. Development results, not a new final test. All source labels are retained. The deployed estimator remains unchanged.</p></details>
+ <p id="load-status" role="status">Loading review evidence…</p>
+ <div id="lab" hidden>
+ <div class="review-toolbar"><label>Show<select id="filter"><option value="flagged">Flagged pairs</option><option value="conflict">Possible source conflicts</option><option value="pending">Not yet reviewed</option><option value="reviewed">Reviewed</option><option value="all">All pairs</option></select></label><label>Find a pair<input id="search" type="search" placeholder="ID or food name"></label><p id="progress" aria-live="polite"></p><button id="export" type="button" class="secondary-button">Export reviews</button></div>
+ <section id="export-panel" hidden aria-label="Exported reviews"><h2>Review export</h2><p><a id="download-reviews" download="food-vision-reviews.json">Download JSON</a>, or copy the text below if your browser does not support downloads.</p><label for="export-json">Review records with source provenance</label><textarea id="export-json" rows="6" readonly></textarea><button id="close-export" class="secondary-button" type="button">Close export</button></section>
+ <section id="review" aria-label="Review a photo pair">
+ <div class="pair-nav"><div><h2 id="pair-title"></h2><p id="pair-position"></p></div><div class="navigation-buttons"><button id="previous" class="secondary-button" aria-label="Previous pair">Previous</button><button id="next" class="secondary-button" aria-label="Next pair">Next</button></div></div>
+ <div class="lab-photos"><figure><figcaption>Before</figcaption><a id="before-full" target="_blank" rel="noopener" aria-label="Open original before photo"><img id="before-photo" alt="Before eating"></a></figure><figure><figcaption>After</figcaption><a id="after-full" target="_blank" rel="noopener" aria-label="Open original after photo"><img id="after-photo" alt="After eating"></a></figure></div>
+ <div class="photo-options"><label><input id="show-overlay" type="checkbox"> Show experimental food masks</label><p>Blue marks model predictions. Residue can be mistaken for food.</p></div>
+ <p id="image-status" role="status"></p>
+ <div class="review-columns">
+ <form id="review-form"><h3>Your visual review</h3><p class="muted">Check both photos before opening the recorded weights. An empty starting plate cannot establish a remaining fraction.</p><label for="before-decision">Before photo</label><select id="before-decision" required><option value="">Choose an observation</option><option value="visible_food">Visible starting portion</option><option value="residue_only">Only residue or tiny crumbs</option><option value="clean_empty">Clean, empty plate</option><option value="uncertain">Uncertain</option></select><label for="decision">After photo</label><select id="decision" required><option value="">Choose an observation</option><option value="visible_food">Visible food remains</option><option value="residue_only">Only residue or tiny crumbs</option><option value="clean_empty">Clean, empty plate</option><option value="uncertain">Uncertain</option></select><label class="checkbox-label"><input id="pair-issue" type="checkbox"> Photos may be mismatched or incomparable</label><label for="review-note">Review note <span class="muted">(optional)</span></label><textarea id="review-note" rows="2" maxlength="2000" placeholder="What needs checking in the original record?"></textarea><button class="primary-button" type="submit">Save review</button><button id="remove-review" type="button" class="secondary-button" hidden>Remove saved review</button><p id="save-status" role="status" aria-live="polite"></p></form>
+ <aside><details id="source-details"><summary>Source labels &amp; model estimates <span aria-hidden="true">+</span></summary><div id="source-evidence"></div></details><details id="ai-details"><summary>AI review proposal <span aria-hidden="true">+</span></summary><div id="ai-evidence"></div></details><p class="muted">Reviews are saved in this browser. Export a copy to keep them. A visual review does not verify grams or change the benchmark.</p></aside>
+ </div></section>
+ <p id="empty" hidden>No matching pairs. Try another filter or clear your search.</p>
+ </div>
+</main>
+<footer><span>Aftermeal · Runs locally</span><a href="https://data.mendeley.com/datasets/cchsk79jkt/1" target="_blank" rel="noopener">Photos: LeFood-Set · CC BY 4.0</a></footer>
+</body></html>

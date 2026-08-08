@@ -40,3 +40,5 @@ The optional frozen DINOv2 encoder runs locally and downloads pinned weights sep
 The browser also accepts JPEG and PNG photo pairs for local analysis.
 
 Optional food highlights are an inspection aid; they do not change percentage estimates.
+
+Developer review workspace: http://127.0.0.1:8765/lab. Original research photos and mask caches are separate local assets.

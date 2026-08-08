@@ -94,5 +94,27 @@ class HttpChecks(unittest.TestCase):
     def test_missing_pair_is_rejected(self):
         status, _ = self.request('POST', '/api/predict', json.dumps({'before': base64.b64encode(b'abc').decode()}))
         self.assertEqual(status, 400)
+
+    def test_review_endpoint_keeps_proposals_separate_from_weights(self):
+        status, data = self.request('GET', '/api/lab')
+        self.assertEqual(status, 200)
+        report = json.loads(data)
+        self.assertEqual(len(report['rows']), 524)
+        self.assertEqual(report['summary']['flagged_pairs'], 48)
+        row = next((r for r in report['rows'] if r['record_id'] == 'L400'))
+        self.assertEqual(row['recorded_after_g'], 0)
+        self.assertEqual(row['after_visual_proposal'], 'F')
+        self.assertFalse(row['evaluation_gold'])
+        self.assertNotIn('research_root', report)
+
+    def test_review_image_routes_are_allowlisted(self):
+        for path in ('/api/lab/images/../../data/records.json', '/api/lab/images/L1/invalid.jpg', '/api/lab/images/L99999/before.jpg'):
+            status, _ = self.request('GET', path)
+            self.assertIn(status, (400, 404))
+
+    def test_review_page_is_served(self):
+        status, data = self.request('GET', '/lab')
+        self.assertEqual(status, 200)
+        self.assertIn(b'Your visual review', data)
 if __name__ == '__main__':
     unittest.main()

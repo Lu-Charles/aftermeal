@@ -8,11 +8,13 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse, unquote
 from .inference import Predictor, ROOT
+from .lab import ReviewLab
 CSP = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"
 MAX_BODY = 23 * 1024 * 1024
 
 def make_handler(root: Path=ROOT, capture_database=None):
     predictor = Predictor(root)
+    lab = ReviewLab(root)
 
     class Handler(BaseHTTPRequestHandler):
 
@@ -33,6 +35,18 @@ def make_handler(root: Path=ROOT, capture_database=None):
 
         def do_GET(self):
             route = unquote(urlparse(self.path).path)
+            if route.startswith('/api/lab'):
+                try:
+                    if route == '/api/lab':
+                        return self.send(200, lab.summary())
+                    match = re.fullmatch('/api/lab/images/(L[0-9]+)/(before|after)(-overlay)?\\.jpg', route)
+                    if match:
+                        return self.send(200, lab.image(match[1], match[2], bool(match[3])), 'image/jpeg')
+                    return self.send(404, {'error': 'Unknown review resource.'})
+                except FileNotFoundError:
+                    return self.send(404, {'error': 'Local review evidence is unavailable. See docs/EXPERIMENTS.md for setup.'})
+                except ValueError as exc:
+                    return self.send(400, {'error': str(exc)})
             if route == '/api/examples':
                 return self.send(200, json.loads((root / 'examples/examples.json').read_text()))
             if route == '/api/benchmark':
@@ -42,6 +56,8 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 return self.send(200, {k: predictor.metadata[k] for k in ('feature', 'calibration_records', 'source')})
             if route == '/':
                 path = root / 'web/index.html'
+            elif route == '/lab':
+                path = root / 'web/lab.html'
             elif route in ('/case-study', '/web/case-study.html'):
                 path = root / 'web/index.html'
             elif route.startswith('/web/') or route.startswith('/examples/images/'):
