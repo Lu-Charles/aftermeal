@@ -13,7 +13,7 @@ const pct = value => `${(value*100).toFixed(2)}%`;
 function message(id,text,error=false){$(id).textContent=text;$(id).classList.toggle('error',error);}
 function paragraph(text){const p=document.createElement('p');p.textContent=text;return p;}
 function line(label,value){const d=document.createElement('div');d.className='evidence-line';const a=document.createElement('span'),b=document.createElement('strong');a.textContent=label;b.textContent=value;d.append(a,b);return d;}
-function progress(){$('progress').textContent=`${Object.keys(reviews).length} / ${data.rows.length} reviewed`;$('export').hidden=true;}
+function progress(){$('progress').textContent=`${Object.keys(reviews).length} / ${data.rows.length} reviewed`;$('export').disabled=!Object.keys(reviews).length;}
 function filter(preferred){
  const q=$('search').value.trim().toLowerCase(),mode=$('filter').value;
  filtered=data.rows.filter(r=>{
@@ -90,6 +90,13 @@ $('remove-review').addEventListener('click',()=>{
  const updated={...reviews};delete updated[currentId];
  try{localStorage.setItem(storageKey,JSON.stringify(updated));reviews=updated;render();progress();message('save-status','Saved review removed. Original evidence is unchanged.');}
  catch{message('save-status','Could not update browser storage. The review was retained.',true);}
+});
+$('export').addEventListener('click',()=>{
+ const payload={schema_version:2,kind:'visual_review_not_mass_ground_truth',evidence_version:data.review_version,exported_at:new Date().toISOString(),records:Object.values(reviews)};
+ const text=JSON.stringify(payload,null,2)+'\n';
+ if(exportUrl)URL.revokeObjectURL(exportUrl);
+ exportUrl=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+ $('download-reviews').href=exportUrl;$('export-json').value=text;$('export-panel').hidden=false;$('export-json').focus();
 });
 $('close-export').addEventListener('click',()=>{$('export-panel').hidden=true;$('export').focus();});
 start();
