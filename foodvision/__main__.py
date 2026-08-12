@@ -22,6 +22,11 @@ def main():
     command = sub.add_parser('segmentation-experiment')
     command.add_argument('--cache', type=Path, required=True)
     command.add_argument('--output', type=Path, required=True)
+    command = sub.add_parser('import-reviews')
+    command.add_argument('--input', type=Path, required=True)
+    command.add_argument('--db', type=Path, default=Path('.local/reviews.sqlite3'))
+    command = sub.add_parser('review-status')
+    command.add_argument('--db', type=Path, default=Path('.local/reviews.sqlite3'))
     args = parser.parse_args()
     if args.command == 'verify':
         from .benchmark import verify_payload
@@ -44,5 +49,11 @@ def main():
     if args.command == 'segmentation-experiment':
         from .segmentation_experiment import run
         run(args.cache, args.output)
+    if args.command == 'import-reviews':
+        from .reviews import import_reviews
+        print(json.dumps(import_reviews(args.input, args.db), indent=2))
+    if args.command == 'review-status':
+        from .reviews import review_status
+        print(json.dumps(review_status(args.db), indent=2))
 if __name__ == '__main__':
     main()
