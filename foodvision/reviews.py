@@ -87,12 +87,15 @@ def import_reviews(source, database, root=ROOT):
     try:
         initialize(connection)
         with connection:
+            connection.execute('BEGIN IMMEDIATE')
+            if connection.execute('SELECT 1 FROM exports WHERE digest=?', (digest,)).fetchone():
+                return {'status': 'already_imported', 'export_sha256': digest, 'new_revisions': 0}
             connection.execute('INSERT INTO exports VALUES (?, ?, ?)', (digest, datetime.now(timezone.utc).isoformat(), serialized))
             inserted = 0
             for record in records:
                 encoded = canonical(record)
                 review_digest = hashlib.sha256(encoded.encode()).hexdigest()
-                cursor = connection.execute('INSERT INTO reviews(digest,record_id,evidence_version,reviewed_at,payload) VALUES (?,?,?,?,?)', (review_digest, record['record_id'], record['evidence_version'], timestamp(record['reviewed_at']), encoded))
+                cursor = connection.execute('INSERT OR IGNORE INTO reviews(digest,record_id,evidence_version,reviewed_at,payload) VALUES (?,?,?,?,?)', (review_digest, record['record_id'], record['evidence_version'], timestamp(record['reviewed_at']), encoded))
                 inserted += cursor.rowcount
                 connection.execute('INSERT INTO export_reviews VALUES (?, ?)', (digest, review_digest))
         return {'status': 'imported', 'export_sha256': digest, 'new_revisions': inserted, 'unchanged_reviews': len(records) - inserted, 'evaluation_gold': False}
