@@ -14,6 +14,7 @@ def main():
     command = sub.add_parser('predict')
     command.add_argument('--before', type=Path, required=True)
     command.add_argument('--after', type=Path, required=True)
+    command.add_argument('--starting-portion', choices=('visible_food', 'empty_or_residue', 'uncertain'))
     command = sub.add_parser('diagnose')
     command.add_argument('--output', type=Path, default=Path('reports/my-diagnose.json'))
     command = sub.add_parser('segment-cache')
@@ -39,7 +40,7 @@ def main():
         serve(args.port)
     if args.command == 'predict':
         from .inference import Predictor
-        print(json.dumps(Predictor().photos(args.before.read_bytes(), args.after.read_bytes()), indent=2))
+        print(json.dumps(Predictor().photos(args.before.read_bytes(), args.after.read_bytes(), args.starting_portion), indent=2))
     if args.command == 'diagnose':
         from .diagnostics import run
         print(json.dumps(run(args.output)['summary'], indent=2))

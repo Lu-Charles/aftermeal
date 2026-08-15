@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": "reports/review-queue/review-queue.json",
+  "source_sha256": "06286b70e9e5b5a5ef346890bcdc1ca924648bf63bdbf9f1524eddb206568907",
+  "policy": "Exact decoded-image match only; not an empty-plate classifier. Does not alter benchmark records.",
+  "images": [
+    {
+      "record_id": "L476",
+      "decoded_rgb_sha256": "b13e7cfb84c873d9b3c340d0575d52bf8d0579fb0f551dc98345f3a959f21b95",
+      "raw_sha256": "394caced3cc3f7a9abdd6ab50b72bf2ba3eb1d0336fc27ad3a1786f2d9e7f39d",
+      "reason": "unresolved starting-image review flag",
+      "label_type": "AI review proposal; not human adjudicated"
+    }
+  ]
+}

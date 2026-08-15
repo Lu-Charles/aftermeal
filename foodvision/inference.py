@@ -8,6 +8,7 @@ import threading
 import numpy as np
 from PIL import Image, ImageOps, UnidentifiedImageError
 from .features import meal_representations
+from .input_checks import inspect_pair, load_flags
 ROOT = Path(__file__).resolve().parent.parent
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_PIXELS = 20000000
@@ -56,15 +57,16 @@ class Predictor:
 
     def photos(self, before: bytes, after: bytes, starting_portion=None) -> dict:
         images = [decode_image(before), decode_image(after)]
-        if any((min(image.size) < 224 for image in images)):
-            raise ValueError('Photo must be at least 224 × 224 pixels.')
+        checks = inspect_pair(images, starting_portion, load_flags(self.root))
+        if checks['status'] != 'ready':
+            return {'status': checks['status'], 'input_checks': checks, 'input_mode': 'new photo validation'}
         with ENCODER_LOCK:
             encoder, transform, torch = image_encoder()
             batch = torch.stack([transform(image) for image in images])
             with torch.inference_mode():
                 features = encoder(batch).cpu().numpy().astype(np.float64)
         fraction = self.predict_embeddings(features[[0]], features[[1]])[0]
-        return {'status': 'estimated', 'estimated_fraction': float(fraction), 'input_mode': 'new photo encoding'}
+        return {'status': 'estimated', 'estimated_fraction': float(fraction), 'input_mode': 'new photo encoding', 'input_checks': checks}
 
 @lru_cache(maxsize=1)
 def image_encoder():
