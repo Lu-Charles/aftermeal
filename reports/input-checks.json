@@ -1,0 +1,2644 @@
+{
+  "policy_version": "input-checks-v1",
+  "scope": "Structural/file audit only. visible_food is injected to isolate automated checks, not asserted as ground truth. No empty-plate sensitivity or specificity is measured.",
+  "records": 524,
+  "status_counts": {
+    "ready": 523,
+    "needs_review": 1
+  },
+  "issue_counts": {
+    "known_starting_image_flag": 1
+  },
+  "rows": [
+    {
+      "record_id": "L1",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L2",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L3",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L4",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L5",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L6",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L7",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L8",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L9",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L10",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L11",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L12",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L13",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L14",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L15",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L16",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L17",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L18",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L19",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L20",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L21",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L22",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L23",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L24",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L25",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L26",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L27",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L28",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L29",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L30",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L31",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L32",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L33",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L34",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L35",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L36",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L37",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L38",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L39",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L40",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L41",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L43",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L44",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L45",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L46",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L47",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L48",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L49",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L50",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L51",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L52",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L53",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L54",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L55",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L56",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L57",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L58",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L59",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L60",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L61",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L62",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L63",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L64",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L65",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L66",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L67",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L68",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L69",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L70",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L71",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L72",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L73",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L74",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L75",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L76",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L77",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L78",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L79",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L80",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L81",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L82",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L83",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L84",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L85",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L86",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L87",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L88",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L89",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L90",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L91",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L92",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L93",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L94",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L95",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L96",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L97",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L98",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L99",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L100",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L101",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L102",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L103",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L104",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L105",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L106",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L107",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L108",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L109",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L110",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L111",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L112",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L113",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L114",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L115",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L116",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L117",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L118",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L119",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L120",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L121",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L122",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L123",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L124",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L125",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L126",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L127",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L128",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L130",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L131",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L132",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L133",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L134",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L135",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L136",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L137",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L138",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L139",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L140",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L142",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L143",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L144",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L145",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L146",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L147",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L148",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L149",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L150",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L151",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L152",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L153",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L154",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L155",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L156",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L157",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L158",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L159",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L160",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L161",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L162",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L163",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L164",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L165",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L166",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L167",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L168",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L169",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L170",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L171",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L172",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L173",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L174",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L175",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L176",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L177",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L178",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L179",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L180",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L181",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L182",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L183",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L184",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L185",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L186",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L187",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L188",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L189",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L190",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L191",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L192",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L193",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L194",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L195",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L196",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L197",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L198",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L199",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L200",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L201",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L202",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L203",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L204",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L205",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L206",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L207",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L208",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L209",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L210",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L211",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L212",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L213",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L214",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L215",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L216",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L217",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L218",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L219",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L220",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L221",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L222",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L223",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L224",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L225",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L226",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L227",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L228",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L229",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L230",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L231",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L232",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L233",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L234",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L235",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L236",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L237",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L238",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L239",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L240",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L241",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L242",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L243",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L244",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L245",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L246",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L247",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L248",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L249",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L250",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L251",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L252",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L253",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L254",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L255",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L256",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L258",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L259",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L260",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L261",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L262",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L263",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L264",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L265",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L266",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L267",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L268",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L269",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L270",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L271",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L272",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L273",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L274",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L275",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L276",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L277",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L278",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L279",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L280",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L281",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L282",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L283",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L284",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L285",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L286",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L287",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L288",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L289",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L290",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L291",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L292",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L293",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L295",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L296",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L297",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L298",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L299",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L300",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L301",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L302",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L303",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L304",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L305",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L306",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L307",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L308",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L309",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L310",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L311",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L312",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L313",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L314",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L315",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L317",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L318",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L319",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L320",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L321",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L322",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L323",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L324",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L325",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L326",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L327",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L328",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L330",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L331",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L332",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L333",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L334",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L335",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L336",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L337",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L338",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L339",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L340",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L341",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L342",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L343",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L344",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L345",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L346",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L347",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L348",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L349",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L350",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L351",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L353",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L354",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L355",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L356",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L358",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L359",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L360",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L361",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L362",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L363",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L364",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L365",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L366",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L367",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L368",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L369",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L370",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L372",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L373",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L374",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L375",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L376",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L377",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L378",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L379",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L380",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L381",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L382",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L383",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L385",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L386",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L387",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L388",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L389",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L391",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L392",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L393",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L394",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L395",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L396",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L397",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L398",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L399",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L400",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L401",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L402",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L403",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L404",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L405",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L407",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L408",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L409",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L410",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L411",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L412",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L413",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L414",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L415",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L416",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L417",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L418",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L419",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L420",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L421",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L422",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L423",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L424",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L425",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L426",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L427",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L428",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L429",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L430",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L431",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L432",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L433",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L434",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L435",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L436",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L437",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L438",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L439",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L440",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L441",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L442",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L443",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L444",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L445",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L446",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L447",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L448",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L449",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L450",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L451",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L452",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L453",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L454",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L456",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L457",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L458",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L459",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L460",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L461",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L462",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L463",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L464",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L465",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L466",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L467",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L468",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L469",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L470",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L471",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L472",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L474",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L475",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L476",
+      "status": "needs_review",
+      "issues": [
+        {
+          "code": "known_starting_image_flag",
+          "image": "before",
+          "message": "This starting image matches an unresolved source-review flag. Use a verified starting photograph.",
+          "records": [
+            "L476"
+          ],
+          "evidence": "AI review proposal, not a verified empty-plate label"
+        }
+      ]
+    },
+    {
+      "record_id": "L477",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L478",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L479",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L480",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L481",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L482",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L483",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L484",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L485",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L486",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L487",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L488",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L489",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L490",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L491",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L492",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L493",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L494",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L495",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L496",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L497",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L498",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L499",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L500",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L501",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L502",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L503",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L504",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L505",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L506",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L507",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L508",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L509",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L510",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L511",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L512",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L513",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L514",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L515",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L516",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L517",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L518",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L519",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L520",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L521",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L522",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L523",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L524",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L525",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L526",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L527",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L529",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L530",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L531",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L532",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L533",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L534",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L535",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L536",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L537",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L538",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L539",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "record_id": "L540",
+      "status": "ready",
+      "issues": []
+    }
+  ]
+}
