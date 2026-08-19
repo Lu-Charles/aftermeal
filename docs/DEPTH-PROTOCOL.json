@@ -1,0 +1,27 @@
+{
+  "scope": "Adaptive development experiment on already inspected LeFood data, not an independent final evaluation or reproduction of DPF-Nutrition.",
+  "hypothesis": "Frozen relative-depth shape features add predictive information beyond appearance and imperfect food-mask area.",
+  "model": {
+    "repository": "depth-anything/Depth-Anything-V2-Small-hf",
+    "revision": "5426e4f0f36572d16453bbda7a8389317b1bef99",
+    "license": "Apache-2.0",
+    "files": {
+      "model.safetensors": "3152477ce0d8d6978d76b995120de97cb5b928701fd0f817769f59e249a16b70",
+      "config.json": "c56698d3643dde1f83ea2212759e6b31a22b8f827246a36dd007ee8a22b3ff75",
+      "preprocessor_config.json": "d41175c0d889477ca8fc67191e540faef14baf6275157b3fdecf78469e6bbf84"
+    }
+  },
+  "extraction": "EXIF-corrected RGB; pinned official slow image processor with default aspect-preserving resize; frozen local safetensors model, no remote code; resize raw inverse-depth output bilinearly to 256x256 for aligned feature extraction; no labels used.",
+  "geometry": "Normalize each image by its own 5th/95th depth percentiles. Fit a plane in normalized pixel coordinates to a 15-pixel-wide dilated ring outside the frozen food mask. This ring is not verified plate surface. Record residual shape statistics inside food; missing reference if fewer than 32 ring pixels. Features are dimensionless cues, never grams, metric height or physical volume.",
+  "features": "Per image: food area; valid-reference flag; signed median and 90th percentile residual; residual std; positive residual sum / image area; positive residual fraction; ring residual std; whole-image normalized depth std. Pair: before, after, after-minus-before. Compare Change baseline, Change+Mask control, Change+Depth, Change+Mask+Depth.",
+  "evaluation": "Original five LeFood outer test sets and 50-label inner folds, checked for group/component/raw-image boundary overlap. Same 13-candidate group-weighted RBF regression search per new feature family. Standardization fitted only inside each fitting partition. No sample-specific correction, relabeling or exclusions.",
+  "selection": "Inner group-balanced MAE; gamma {0.5,2,8} x alpha {0.01,0.1,1,10}, plus constant group-weighted median. Clip to [0,1.25].",
+  "promotion_gates": {
+    "relative_MAE_improvement_over_Change": 0.1,
+    "small_positive_max_degradation_pp": 1,
+    "zero_predictions_above_10_percent_no_increase": true,
+    "paired_block_95_interval_upper_below_zero": true,
+    "depth_augmented_MAE_better_than_matched_no_depth_control": true
+  },
+  "limitations": "Residue/portion confusion cannot be scored without independent visual labels. Recorded zero and small-positive mass slices are proxies with different meaning. Relative depth has per-image scale/shift ambiguity, and pretraining overlap is unknown. All results are conditional development evidence. No automatic deployment."
+}
