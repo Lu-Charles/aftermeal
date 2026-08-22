@@ -1,0 +1,6 @@
+{
+  "timing": "Added while feature extraction ran, before any depth model fitting or outcome inspection.",
+  "reason": "The original Change bank has 25 candidates. Add a scalar-only ChangeControl using the same standardization and 13 candidates as depth variants for a strictly matched ablation.",
+  "comparison": "ChangeDepth versus ChangeControl; ChangeMaskDepth versus ChangeMask. Keep original Change as the deployment and promotion baseline.",
+  "clarification": "Both depth variants use the frozen food mask to locate feature regions. Removing mask area features does not remove dependence on that mask. This is not an evaluation of a depth-only food detector."
+}
