@@ -1,0 +1,15 @@
+{
+  "scope": "Adaptive development follow-up motivated by the inspected depth results. Not a fresh test set, not a guarantee about future photos.",
+  "hypothesis": "A depth expert can complement the original predictor without being trusted for every prediction.",
+  "data": "Same 524 LeFood records, five original outer splits, 50 calibration labels and original inner folds. Original targets and images unchanged.",
+  "experts": "Original Change bank selected by inner group MAE; depth expert selected from the two frozen depth feature families and 13 candidates each by inner group MAE. No outer labels used for expert, policy or weight selection.",
+  "policies": {
+    "Blend": "baseline + alpha * (depth - baseline)",
+    "BoundedDownward": "baseline + alpha * clip(depth - baseline, -0.10, 0); at most ten percentage points downward, never upward"
+  },
+  "weights": [0, 0.1, 0.25, 0.5, 0.75, 1],
+  "structural_gate": "Both photos must have valid local depth-reference rings. This is a geometry availability check, not calibrated confidence. Otherwise baseline is returned.",
+  "inner_weight_selection": "For each policy, minimum group-balanced inner MAE among weights that do not increase recorded-zero predictions above 10% or worsen small-positive group MAE by more than 1 point. Absent inner slices provide no evidence and are explicitly counted. Alpha zero is always available and wins ties. Expert and blend choices share inner data; only outer forecasts assess the full selected procedure.",
+  "report": "All outer forecasts, selected expert/weight per fold, slice errors, per-group improvements/regressions, conditional paired dependency-block intervals. No choosing the policy from a gallery example.",
+  "promotion": "No automatic deployment. Report whether overall error does not increase, small-positive degradation is <=1 point, zero-above-10% count does not increase, and the paired-block 95% interval is entirely below zero. Independent new-serving confirmation is still needed."
+}
