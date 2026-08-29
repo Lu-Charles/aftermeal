@@ -8,3 +8,5 @@ The deployed compact estimator is retained.
 [Segmentation results](../reports/segmentation-experiment.json).
 
 Visual proposals are review aids, not corrected source masses or evaluation labels.
+
+[Depth and blend results](DEPTH.md) did not justify changing deployment weights.
