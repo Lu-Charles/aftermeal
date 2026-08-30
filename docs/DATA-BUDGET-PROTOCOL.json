@@ -1,0 +1,18 @@
+{
+  "experiment": "Expanded calibration data, fixed feature/model families",
+  "scope": "Development comparison on previously inspected datasets; not a new independent test",
+  "baseline": "Original 50-label Change and Appearance results remain immutable",
+  "outer_test": "Exact original test record IDs, five folds per source",
+  "training": "All same-source records excluding held-out record IDs, groups, similarity components and (LeFood) exact raw image hashes across both roles",
+  "inner": "Five deterministic group-balanced folds by record count; purge similarity components and raw-image matches from each inner training set; no target values used to build splits",
+  "candidates": "Unchanged original 49 candidates; Appearance and Change banks select separately using inner group MAE; no new thresholds or relabeling",
+  "selection_for_demo": "Change family only, preserving the product comparison; each fold independently selects its candidate",
+  "adoption_gates": {
+    "relative_group_mae_improvement": 0.1,
+    "small_positive_max_degradation_pp": 1.0,
+    "recorded_zero_above_10_percent_no_increase": true,
+    "paired_dependency_block_95_interval_upper_below_zero": true
+  },
+  "promotion": "Only source LeFood if all gates pass; retain original model and reference benchmark; fresh independent capture evaluation still needed",
+  "no_changes": "No AI labels, mask thresholds, exclusions based on targets, or test-driven parameter search"
+}
