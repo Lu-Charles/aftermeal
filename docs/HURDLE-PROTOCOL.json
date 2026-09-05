@@ -1,0 +1,18 @@
+{
+  "rationale": "Expanded labels alone did not improve LeFood Change MAE (9.75 vs 9.63). Test a model that separates recorded zero mass from the amount in positive-mass records. Labels are source weights, not food-presence annotations.",
+  "scope": "Adaptive development follow-up; outer datasets already examined; independent confirmation required.",
+  "budgets": "Original 50-label folds and the expanded folds frozen in data-budget.json",
+  "classifier": "Group-weighted kernel ridge fit to target fraction > 0 using After features, clipped to [0,1] as an uncalibrated regression score",
+  "positive_model": "Group-weighted kernel ridge fit on positive-mass training records only; features After, Paired, or Cosine change",
+  "output": "Product of clipped positive score and clipped conditional positive fraction; no manually selected zero cutoff",
+  "candidates": "36 fixed combinations: 3 positive feature families x gamma {0.5,2,8} x alpha {0.01,0.1,1,10}. Same gamma and alpha in both stages.",
+  "selection": "Minimum inner group MAE only, using the original/purged inner folds; select independently for each budget",
+  "comparison": "Original Change50; all predictions and failure slices retained",
+  "promotion_gates": {
+    "LeFood_relative_MAE_improvement": 0.1,
+    "small_positive_max_degradation_pp": 1,
+    "zero_predictions_above_10_percent_no_increase": true,
+    "paired_block_95_interval_upper_below_zero": true
+  },
+  "deployment": "No model promotion until all gates and leakage checks pass. No individual-sample patching."
+}
