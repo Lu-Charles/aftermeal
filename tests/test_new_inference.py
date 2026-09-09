@@ -1,10 +1,17 @@
 """Guard the new experiments' boundaries and the upload highlight endpoint."""
+import base64
+from http.client import HTTPConnection
+from http.server import ThreadingHTTPServer
+import json
+import threading
 import unittest
+from unittest.mock import patch
 import numpy as np
 from foodvision.data_budget import eligible, expanded_episode
 from foodvision.features import meal_representations
 from foodvision.hurdle import forecast, predictions
 from foodvision.models import CandidateRegressors
+from foodvision.server import make_handler
 
 class ExperimentChecks(unittest.TestCase):
 
@@ -38,6 +45,44 @@ class ExperimentChecks(unittest.TestCase):
         groups = np.array(['a', 'b', 'c'])
         kernels = CandidateRegressors(x, y, groups).kernels
         np.testing.assert_array_equal(predictions(kernels, y, groups, [0, 1], [2]), np.zeros((36, 1)))
+
+class HighlightHttpChecks(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        handler = make_handler()
+        handler.log_message = lambda *args: None
+        cls.server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+        cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
+        cls.thread.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.thread.join()
+
+    def post(self, payload, origin=None):
+        connection = HTTPConnection('127.0.0.1', self.server.server_port, timeout=5)
+        headers = {'Content-Type': 'application/json'}
+        if origin:
+            headers['Origin'] = origin
+        connection.request('POST', '/api/highlight', json.dumps(payload), headers)
+        response = connection.getresponse()
+        body = json.loads(response.read())
+        connection.close()
+        return (response.status, body)
+
+    def test_route_passes_uploaded_bytes_and_never_calls_percentage_model(self):
+        with patch('foodvision.server.highlight_photos', return_value={'status': 'highlighted'}) as highlight, patch('foodvision.server.Predictor.photos', side_effect=AssertionError('Separate operation')):
+            status, body = self.post({'before': base64.b64encode(b'one').decode(), 'after': base64.b64encode(b'two').decode()})
+        self.assertEqual(status, 200)
+        self.assertEqual(highlight.call_args.args, (b'one', b'two'))
+        self.assertNotIn('estimated_fraction', body)
+
+    def test_malformed_images_and_outside_origin_are_rejected(self):
+        self.assertEqual(self.post({'before': '?', 'after': '?'})[0], 400)
+        self.assertEqual(self.post({}, 'https://elsewhere.example')[0], 403)
 import io
 import unittest
 from PIL import Image

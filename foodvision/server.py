@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import urlparse, unquote
 from .inference import Predictor, ROOT
 from .lab import ReviewLab
+from .highlighting import highlight_photos
 CSP = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"
 MAX_BODY = 23 * 1024 * 1024
 
@@ -82,7 +83,7 @@ def make_handler(root: Path=ROOT, capture_database=None):
 
         def do_POST(self):
             route = urlparse(self.path).path
-            if route not in ('/api/predict',):
+            if route not in ('/api/predict', '/api/highlight'):
                 return self.send(404, {'error': 'Not found.'})
             if route == '/api/capture' and (not self.capture_origin_allowed()):
                 return self.send(403, {'error': 'Capture is available only from this local app.'})
@@ -96,7 +97,10 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 data = json.loads(self.rfile.read(length))
                 if not isinstance(data, dict):
                     raise ValueError('Expected a photo pair or example ID.')
-                if 'example_id' in data:
+                if route == '/api/highlight':
+                    images = [base64.b64decode(data[key], validate=True) for key in ('before', 'after')]
+                    result = highlight_photos(*images, root=root)
+                elif 'example_id' in data:
                     result = predictor.example(data['example_id'])
                 else:
                     images = [base64.b64decode(data[key], validate=True) for key in ('before', 'after')]
