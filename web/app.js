@@ -52,7 +52,7 @@ $('analyze').addEventListener('click',async()=>{
   try {
     if(!uploaded.before||!uploaded.after)throw new Error('Choose both photos.');
     $('analyze').disabled=true;$('status').textContent='Analyzing…';
-    
+    if($('highlight').checked)request('/api/highlight',uploaded).then(data=>{highlights=data.images;photos();}).catch(error=>{$('highlight-status').textContent=error.message;});
     const data=await request('/api/predict',{...uploaded,starting_portion:$('starting').value||null});
     if(data.status==='rejected'||data.status==='needs_review')throw new Error(data.input_checks.issues.map(x=>x.message).join(' '));
     show(data);$('status').textContent='';

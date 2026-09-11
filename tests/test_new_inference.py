@@ -83,6 +83,12 @@ class HighlightHttpChecks(unittest.TestCase):
     def test_malformed_images_and_outside_origin_are_rejected(self):
         self.assertEqual(self.post({'before': '?', 'after': '?'})[0], 400)
         self.assertEqual(self.post({}, 'https://elsewhere.example')[0], 403)
+
+    def test_missing_optional_model_returns_unavailable_not_a_fake_overlay(self):
+        with patch('foodvision.server.highlight_photos', side_effect=RuntimeError('Missing model')):
+            status, body = self.post({'before': 'b25l', 'after': 'dHdv'})
+        self.assertEqual(status, 503)
+        self.assertNotIn('images', body)
 import io
 import unittest
 from PIL import Image
