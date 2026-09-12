@@ -23,7 +23,15 @@ def text(value, label, limit=200, required=True):
     return value.strip()
 
 def mass(value):
-    return int(Decimal(str(value)) * 1000)
+    if isinstance(value, bool) or not isinstance(value, (str, int, float)):
+        raise ValueError('Enter scale readings in grams.')
+    try:
+        number = Decimal(str(value)) * 1000
+        if not number.is_finite() or not 0 <= number <= 20000000 or number != number.to_integral_value():
+            raise ValueError('Scale readings must be 0–20,000 grams, with at most three decimals.')
+        return int(number)
+    except InvalidOperation as exc:
+        raise ValueError('Invalid scale reading.') from exc
 
 class CaptureStore:
 
@@ -93,6 +101,12 @@ class CaptureStore:
                     raise ValueError('Unknown session.')
                 food = text(data.get('food'), 'Food description')
                 tare, resolution, gross = (mass(data.get(k)) for k in ('tare_g', 'resolution_g', 'gross_g'))
+                if not 1 <= resolution <= 10000:
+                    raise ValueError('Scale increment must be between 0.001 and 10 grams.')
+                if gross <= tare:
+                    raise ValueError('Starting plate + food must weigh more than the empty plate.')
+                if tare % resolution or gross % resolution:
+                    raise ValueError('Readings must match the scale increment.')
                 db.execute('INSERT INTO servings VALUES (?,?,?,?,?,?,NULL)', (new_id, session_id, food, tare, resolution, now))
                 reading_id = self.add_reading(db, new_id, 'before', gross, 'portion', data, now)
                 result = {'serving_id': new_id, 'reading_id': reading_id}
@@ -109,7 +123,13 @@ class CaptureStore:
                     result = {'serving_id': serving_id, 'excluded': True}
                 else:
                     gross = mass(data.get('gross_g'))
+                    if gross < serving['tare_mg']:
+                        raise ValueError('Plate + food cannot weigh less than the empty plate.')
+                    if gross % serving['resolution_mg']:
+                        raise ValueError('Reading must match the scale increment.')
                     before = db.execute("SELECT v.gross_mg FROM readings r JOIN revisions v ON r.id=v.reading_id WHERE r.serving_id=? AND r.role='before' ORDER BY v.revision DESC LIMIT 1", (serving_id,)).fetchone()[0]
+                    if gross > before:
+                        raise ValueError('This exceeds the starting weight. Added food or a changed plate needs a new serving.')
                     material = data.get('material')
                     if material not in MATERIALS:
                         raise ValueError('Choose what is visible in the photo.')
