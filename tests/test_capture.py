@@ -1,11 +1,16 @@
 import base64
+from http.client import HTTPConnection
+from http.server import ThreadingHTTPServer
 import io
+import json
 from pathlib import Path
 import tempfile
+import threading
 import unittest
 import uuid
 from PIL import Image
 from foodvision.capture import CaptureStore, mass
+from foodvision.server import make_handler
 
 def photo(color):
     stream = io.BytesIO()
@@ -87,3 +92,39 @@ class CaptureChecks(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'excluded'):
             self.after(s)
         self.assertEqual(self.store.summary()['sessions'][0]['servings'][0]['exclusion'], 'Wrong starting plate')
+
+class CaptureHttpChecks(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        handler = make_handler(capture_database=Path(self.tmp.name) / 'capture.sqlite3')
+        handler.log_message = lambda *a: None
+        self.server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.thread.start()
+        self.addCleanup(self.stop)
+
+    def stop(self):
+        self.server.shutdown()
+        self.server.server_close()
+        self.thread.join()
+
+    def request(self, path, method='GET', data=None, headers=None):
+        c = HTTPConnection('127.0.0.1', self.server.server_port, timeout=5)
+        c.request(method, path, body=json.dumps(data) if data else None, headers=headers or {})
+        r = c.getresponse()
+        result = (r.status, r.read(), dict(r.getheaders()))
+        c.close()
+        return result
+
+    def test_capture_rejects_external_origin_and_rebinding_host(self):
+        self.assertEqual(self.request('/api/capture', headers={'Origin': 'https://evil.example'})[0], 403)
+        self.assertEqual(self.request('/api/capture', headers={'Host': 'evil.example'})[0], 403)
+        self.assertEqual(self.request('/api/capture', 'POST', {'action': 'session'}, headers={'Origin': 'https://evil.example'})[0], 403)
+
+    def test_capture_post_persists_and_invalid_photo_does_not(self):
+        status, body, _ = self.request('/api/capture', 'POST', {'request_id': 'x', 'action': 'session', 'name': 'Kitchen', 'purpose': 'pilot'})
+        self.assertEqual(status, 200)
+        self.assertIn('session_id', json.loads(body))
+        self.assertEqual(len(json.loads(self.request('/api/capture')[1])['sessions']), 1)

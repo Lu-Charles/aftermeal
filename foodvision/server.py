@@ -10,12 +10,14 @@ from urllib.parse import urlparse, unquote
 from .inference import Predictor, ROOT
 from .lab import ReviewLab
 from .highlighting import highlight_photos
+from .capture import CaptureStore
 CSP = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"
 MAX_BODY = 23 * 1024 * 1024
 
 def make_handler(root: Path=ROOT, capture_database=None):
     predictor = Predictor(root)
     lab = ReviewLab(root)
+    capture = CaptureStore(capture_database or root / '.local/capture.sqlite3')
 
     class Handler(BaseHTTPRequestHandler):
 
@@ -36,6 +38,19 @@ def make_handler(root: Path=ROOT, capture_database=None):
 
         def do_GET(self):
             route = unquote(urlparse(self.path).path)
+            if route.startswith('/api/capture'):
+                if not self.capture_origin_allowed():
+                    return self.send(403, {'error': 'Capture is available only from this local app.'})
+                try:
+                    if route == '/api/capture':
+                        return self.send(200, capture.summary())
+                    match = re.fullmatch('/api/capture/photos/([a-f0-9]{32})', route)
+                    if match:
+                        raw, mime = capture.image(match[1])
+                        return self.send(200, raw, mime)
+                    return self.send(404, {'error': 'Unknown capture resource.'})
+                except FileNotFoundError:
+                    return self.send(404, {'error': 'Capture photo not found.'})
             if route.startswith('/api/lab'):
                 try:
                     if route == '/api/lab':
@@ -59,6 +74,8 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 path = root / 'web/index.html'
             elif route == '/lab':
                 path = root / 'web/lab.html'
+            elif route == '/capture':
+                path = root / 'web/capture.html'
             elif route in ('/case-study', '/web/case-study.html'):
                 path = root / 'web/index.html'
             elif route.startswith('/web/') or route.startswith('/examples/images/'):
@@ -83,7 +100,7 @@ def make_handler(root: Path=ROOT, capture_database=None):
 
         def do_POST(self):
             route = urlparse(self.path).path
-            if route not in ('/api/predict', '/api/highlight'):
+            if route not in ('/api/predict', '/api/highlight', '/api/capture'):
                 return self.send(404, {'error': 'Not found.'})
             if route == '/api/capture' and (not self.capture_origin_allowed()):
                 return self.send(403, {'error': 'Capture is available only from this local app.'})
@@ -97,7 +114,9 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 data = json.loads(self.rfile.read(length))
                 if not isinstance(data, dict):
                     raise ValueError('Expected a photo pair or example ID.')
-                if route == '/api/highlight':
+                if route == '/api/capture':
+                    result = capture.mutate(data)
+                elif route == '/api/highlight':
                     images = [base64.b64decode(data[key], validate=True) for key in ('before', 'after')]
                     result = highlight_photos(*images, root=root)
                 elif 'example_id' in data:

@@ -44,3 +44,5 @@ Optional food highlights are an inspection aid; they do not change percentage es
 Developer review workspace: http://127.0.0.1:8765/lab. Original research photos and mask caches are separate local assets.
 
 Import browser reviews with `python -m foodvision import-reviews --input reviews.json`. Visual reviews do not correct source masses.
+
+Developer collection workspace: http://127.0.0.1:8765/capture. [Collection instructions](docs/CAPTURE.md).
