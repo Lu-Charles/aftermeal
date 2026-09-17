@@ -6,3 +6,5 @@ reserved evaluation sessions separate. One serving must use one plate tare.
 Local collection explicitly saves photographs and records in SQLite.
 
 Open `/capture` in the local demo to create sessions and servings.
+
+Corrections append a reasoned revision and reject stale version numbers.

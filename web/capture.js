@@ -66,7 +66,7 @@ function render() {
   content.append(element('p',`Scale display: ${grams(r.gross_mg)} g · ${new Date(r.created).toLocaleString()}`,'help'));
   if (r.below_scale_resolution) content.append(element('p','Below one scale increment; this does not establish absolutely zero food.','help'));
   if (r.note) content.append(element('p',r.note));
-  if (false) { const button=element('button','Correct reading','text-button'); button.addEventListener('click',()=>editReading(r)); content.append(button); }
+  if (r.role==='after' && !s.exclusion) { const button=element('button','Correct reading','text-button'); button.addEventListener('click',()=>editReading(r)); content.append(button); }
   if (r.history.length > 1) { const details=element('details'); details.append(element('summary',`${r.history.length} saved revisions`)); const list=element('ol'); for (const h of r.history) list.append(element('li',`${grams(h.gross_mg)} g · ${materialNames[h.material]} · ${h.note} · ${new Date(h.created).toLocaleString()}`)); details.append(list); content.append(details); }
   row.append(image,content); $('reading-list').append(row);
  }

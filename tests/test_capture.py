@@ -86,6 +86,17 @@ class CaptureChecks(unittest.TestCase):
         self.assertTrue(r['below_scale_resolution'])
         self.assertEqual(r['remaining_fraction'], 0)
 
+    def test_correction_preserves_history_and_rejects_stale_revision(self):
+        s = self.start()['serving_id']
+        r = self.after(s)['reading_id']
+        change = dict(action='correction', serving_id=s, reading_id=r, expected_revision=1, gross_g='270.1', material='portion', note='Transcribed the display incorrectly.')
+        self.save(**change)
+        with self.assertRaisesRegex(ValueError, 'changed elsewhere'):
+            self.save(**change)
+        reading = self.store.summary()['sessions'][0]['servings'][0]['readings'][-1]
+        self.assertEqual([h['gross_mg'] for h in reading['history']], [275100, 270100])
+        self.assertEqual(reading['remaining_fraction'], 0.2)
+
     def test_exclusion_retains_records_and_blocks_additions(self):
         s = self.start()['serving_id']
         self.save(action='exclude', serving_id=s, reason='Wrong starting plate')

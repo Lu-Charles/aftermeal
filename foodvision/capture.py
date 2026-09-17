@@ -110,7 +110,7 @@ class CaptureStore:
                 db.execute('INSERT INTO servings VALUES (?,?,?,?,?,?,NULL)', (new_id, session_id, food, tare, resolution, now))
                 reading_id = self.add_reading(db, new_id, 'before', gross, 'portion', data, now)
                 result = {'serving_id': new_id, 'reading_id': reading_id}
-            elif action in {'reading', 'exclude'}:
+            elif action in {'reading', 'correction', 'exclude'}:
                 serving_id = text(data.get('serving_id'), 'Serving ID', 80)
                 serving = db.execute('SELECT * FROM servings WHERE id=?', (serving_id,)).fetchone()
                 if not serving:
@@ -135,6 +135,17 @@ class CaptureStore:
                         raise ValueError('Choose what is visible in the photo.')
                     if action == 'reading':
                         result = {'serving_id': serving_id, 'reading_id': self.add_reading(db, serving_id, 'after', gross, material, data, now)}
+                    else:
+                        reading_id = text(data.get('reading_id'), 'Reading ID', 80)
+                        reading = db.execute('SELECT * FROM readings WHERE id=? AND serving_id=?', (reading_id, serving_id)).fetchone()
+                        if not reading or reading['role'] != 'after':
+                            raise ValueError('Only after readings can be corrected. Exclude a serving with an incorrect starting record.')
+                        revision = db.execute('SELECT MAX(revision) FROM revisions WHERE reading_id=?', (reading_id,)).fetchone()[0]
+                        if type(data.get('expected_revision')) is not int or data['expected_revision'] != revision:
+                            raise ValueError('This record changed elsewhere. Reload before correcting it.')
+                        note = text(data.get('note'), 'Correction reason', 1000)
+                        db.execute('INSERT INTO revisions VALUES (?,?,?,?,?,?)', (reading_id, revision + 1, gross, material, note, now))
+                        result = {'serving_id': serving_id, 'reading_id': reading_id, 'revision': revision + 1}
             else:
                 raise ValueError('Unknown capture action.')
             db.execute('INSERT INTO requests VALUES (?,?,?)', (request_id, fingerprint, canonical(result)))
