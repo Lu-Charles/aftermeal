@@ -175,3 +175,21 @@ class CaptureStore:
             if not row:
                 raise FileNotFoundError('Unknown capture photo.')
             return (row['bytes'], row['mime'])
+
+    def export(self):
+        output = io.BytesIO()
+        with self.connection() as db:
+            db.execute('BEGIN')
+            manifest = self.summary(db)
+            with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:
+                for session in manifest['sessions']:
+                    for serving in session['servings']:
+                        for reading in serving['readings']:
+                            photo = db.execute('SELECT bytes,mime FROM photos WHERE id=?', (reading['photo_id'],)).fetchone()
+                            name = 'photos/' + reading['photo_id'] + ('.png' if photo['mime'] == 'image/png' else '.jpg')
+                            reading['image']['path'] = name
+                            del reading['image']['url']
+                            archive.writestr(name, photo['bytes'])
+                archive.writestr('manifest.json', json.dumps(manifest, indent=2, allow_nan=False))
+                archive.writestr('README.txt', 'Aftermeal weighed capture, schema 1.\nOriginal photos and all reading revisions are included. Masses use integer milligrams.\nUse the latest revision; exclude servings with an exclusion reason. Never split stages of one serving or sessions across fitting and evaluation.\nSessions marked evaluation are reserved from training and tuning. Pilot sessions are development data. User-entered scale readings are not independently verified.\nThis ZIP is a portable evidence export, not a model or a training import.\n')
+        return output.getvalue()

@@ -44,6 +44,8 @@ def make_handler(root: Path=ROOT, capture_database=None):
                 try:
                     if route == '/api/capture':
                         return self.send(200, capture.summary())
+                    if route == '/api/capture/export':
+                        return self.send(200, capture.export(), 'application/zip')
                     match = re.fullmatch('/api/capture/photos/([a-f0-9]{32})', route)
                     if match:
                         raw, mime = capture.image(match[1])

@@ -1,4 +1,5 @@
 import base64
+import hashlib
 from http.client import HTTPConnection
 from http.server import ThreadingHTTPServer
 import io
@@ -8,6 +9,7 @@ import tempfile
 import threading
 import unittest
 import uuid
+import zipfile
 from PIL import Image
 from foodvision.capture import CaptureStore, mass
 from foodvision.server import make_handler
@@ -104,6 +106,19 @@ class CaptureChecks(unittest.TestCase):
             self.after(s)
         self.assertEqual(self.store.summary()['sessions'][0]['servings'][0]['exclusion'], 'Wrong starting plate')
 
+    def test_export_contains_matching_photos_purpose_and_revisions(self):
+        s = self.start()['serving_id']
+        r = self.after(s)['reading_id']
+        self.save(action='correction', serving_id=s, reading_id=r, expected_revision=1, gross_g='270.1', material='portion', note='Correction')
+        with zipfile.ZipFile(io.BytesIO(self.store.export())) as archive:
+            data = json.loads(archive.read('manifest.json'))
+            session = data['sessions'][0]
+            self.assertEqual(session['purpose'], 'pilot')
+            for reading in session['servings'][0]['readings']:
+                image = reading['image']
+                self.assertEqual(hashlib.sha256(archive.read(image['path'])).hexdigest(), image['raw_sha'])
+            self.assertEqual(len(session['servings'][0]['readings'][1]['history']), 2)
+
 class CaptureHttpChecks(unittest.TestCase):
 
     def setUp(self):
@@ -128,6 +143,13 @@ class CaptureHttpChecks(unittest.TestCase):
         result = (r.status, r.read(), dict(r.getheaders()))
         c.close()
         return result
+
+    def test_capture_page_and_export_are_served(self):
+        self.assertEqual(self.request('/capture')[0], 200)
+        status, body, headers = self.request('/api/capture/export')
+        self.assertEqual(status, 200)
+        self.assertIn('attachment', headers['Content-Disposition'])
+        self.assertTrue(zipfile.is_zipfile(io.BytesIO(body)))
 
     def test_capture_rejects_external_origin_and_rebinding_host(self):
         self.assertEqual(self.request('/api/capture', headers={'Origin': 'https://evil.example'})[0], 403)
