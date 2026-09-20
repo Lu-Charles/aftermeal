@@ -56,11 +56,22 @@ class PublicApplication:
         if method != 'POST':
             return respond(405, {'error': 'Use POST.'}, extra=(('Allow', 'POST'),))
         origin = environ.get('HTTP_ORIGIN')
+        if origin:
+            try:
+                parsed = urlsplit(origin)
+                same_host = parsed.netloc == environ.get('HTTP_HOST') and parsed.scheme in ('http', 'https')
+                valid_origin = not parsed.path and (not parsed.query) and (not parsed.fragment) and (parsed.username is None)
+            except ValueError:
+                same_host = valid_origin = False
+            if not same_host or not valid_origin:
+                return respond(403, {'error': 'Use the demo on this site.'})
+        if environ.get('CONTENT_TYPE', '').split(';')[0].strip() != 'application/json':
+            return respond(415, {'error': 'Send application/json.'})
         try:
             length = int(environ.get('CONTENT_LENGTH') or '0')
         except ValueError:
             return respond(400, {'error': 'Invalid Content-Length.'})
-        if length <= 0:
+        if not 0 < length <= MAX_PUBLIC_BODY:
             return respond(413, {'error': 'This demo accepts only a sample ID (up to 1 KB). Run locally to analyze your photos.'})
         try:
             raw = environ['wsgi.input'].read(length)

@@ -5,7 +5,7 @@ import unittest
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 from wsgiref.validate import validator
-from foodvision.public import PublicApplication
+from foodvision.public import PublicApplication, MAX_PUBLIC_BODY
 
 class PublicTests(unittest.TestCase):
 
@@ -38,6 +38,34 @@ class PublicTests(unittest.TestCase):
             with self.subTest(route=route):
                 self.assertEqual(self.request(path=route)['status'], 404)
                 self.assertEqual(self.request('POST', route, b'{}')['status'], 404)
+
+    def test_body_size_and_content_type_checked_before_read(self):
+
+        class NoRead:
+
+            def read(self, *args):
+                raise AssertionError('Must reject before reading')
+
+            def readline(self, *args):
+                raise AssertionError()
+
+            def readlines(self, *args):
+                raise AssertionError()
+
+            def __iter__(self):
+                return iter(())
+        for length in ('0', str(MAX_PUBLIC_BODY + 1)):
+            r = self.request('POST', '/api/predict', CONTENT_LENGTH=length, **{'wsgi.input': NoRead()})
+            self.assertEqual(r['status'], 413)
+        self.assertEqual(self.request('POST', '/api/predict', b'{}', CONTENT_TYPE='text/plain')['status'], 415)
+
+    def test_invalid_payload_and_upload_are_rejected(self):
+        for body in (b'not json', b'[]', b'null', b'{"example_id":[]}', b'{"example_id":"missing"}', b'{"before":"data", "after":"data"}', b'{"example_id":"L81", "extra":1}', b'\xff'):
+            self.assertEqual(self.request('POST', '/api/predict', body)['status'], 400)
+
+    def test_origin_restriction_and_methods(self):
+        self.assertEqual(self.request('POST', '/api/predict', b'{}', HTTP_ORIGIN='https://evil.example')['status'], 403)
+        self.assertEqual(self.request('PUT', '/api/predict')['status'], 405)
 
     def test_simultaneous_sample_requests_are_consistent(self):
         with ThreadPoolExecutor(max_workers=8) as pool:
