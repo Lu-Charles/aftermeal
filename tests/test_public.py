@@ -67,6 +67,19 @@ class PublicTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/predict', b'{}', HTTP_ORIGIN='https://evil.example')['status'], 403)
         self.assertEqual(self.request('PUT', '/api/predict')['status'], 405)
 
+    def test_head_health_assets_and_security_headers(self):
+        for route in ('/', '/case-study', '/web/app.js', '/examples/images/overlays/L81_after.jpg', '/healthz'):
+            get = self.request(path=route)
+            head = self.request('HEAD', route)
+            self.assertEqual(get['status'], 200)
+            self.assertEqual(head['body'], b'')
+            self.assertEqual(head['headers']['Content-Length'], str(len(get['body'])))
+            self.assertIn("frame-ancestors 'none'", get['headers']['Content-Security-Policy'])
+        config = json.loads(self.request(path='/api/config')['body'])
+        self.assertFalse(config['uploads'])
+        self.assertFalse(config['collection'])
+        self.assertEqual(len(config['example_images']), 8)
+
     def test_simultaneous_sample_requests_are_consistent(self):
         with ThreadPoolExecutor(max_workers=8) as pool:
             results = list(pool.map(lambda _: self.request('POST', '/api/predict', b'{"example_id":"L492"}'), range(32)))

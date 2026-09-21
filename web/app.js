@@ -20,7 +20,7 @@ async function choose(example) {
   catch (error) { $('status').textContent=error.message; }
 }
 async function start() {
-  
+  const config=await request('/api/config');$('uploads').hidden=!config.uploads;
   const samples = await request('/api/examples');
   for (const example of samples) {
     const button=document.createElement('button'); button.textContent=example.id;

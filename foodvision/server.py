@@ -11,7 +11,7 @@ from .inference import Predictor, ROOT
 from .lab import ReviewLab
 from .highlighting import highlight_photos
 from .capture import CaptureStore
-CSP = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"
+from .public import capabilities, CSP
 MAX_BODY = 23 * 1024 * 1024
 
 def make_handler(root: Path=ROOT, capture_database=None):
@@ -38,6 +38,10 @@ def make_handler(root: Path=ROOT, capture_database=None):
 
         def do_GET(self):
             route = unquote(urlparse(self.path).path)
+            if route == '/api/config':
+                return self.send(200, capabilities(root))
+            if route == '/healthz':
+                return self.send(200, {'status': 'ok', 'mode': 'local'})
             if route.startswith('/api/capture'):
                 if not self.capture_origin_allowed():
                     return self.send(403, {'error': 'Capture is available only from this local app.'})

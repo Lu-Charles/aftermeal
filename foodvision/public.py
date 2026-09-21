@@ -12,6 +12,10 @@ MAX_PUBLIC_BODY = 1024
 WEB_FILES = ('index.html', 'app.js', 'style.css')
 CSP = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
 
+def capabilities(root=ROOT, *, public=False):
+    manifest = json.loads((root / 'data/checksums.json').read_text())
+    return {'version': VERSION, 'mode': 'public' if public else 'local', 'uploads': not public, 'collection': not public, 'model_sha256': manifest['models/demo_model.npz'], 'example_images': {p.removeprefix('examples/images/'): digest for p, digest in manifest.items() if p.startswith('examples/images/')}}
+
 class PublicApplication:
     """Precompute four predictions at startup; each request serves bounded bytes."""
 
@@ -31,7 +35,7 @@ class PublicApplication:
             for kind in ('before', 'after'):
                 for route in (item[kind], f"/examples/images/overlays/{item['id']}_{kind}.jpg"):
                     self.routes[route] = ((root / route.lstrip('/')).read_bytes(), 'image/jpeg')
-        for route, data in {'/api/examples': examples, '/api/model': {k: predictor.metadata[k] for k in ('feature', 'calibration_records', 'source')}, '/api/benchmark': json.loads((root / 'reports/benchmark.json').read_text())}.items():
+        for route, data in {'/api/examples': examples, '/api/config': capabilities(root, public=True), '/api/model': {k: predictor.metadata[k] for k in ('feature', 'calibration_records', 'source')}, '/api/benchmark': json.loads((root / 'reports/benchmark.json').read_text()), '/healthz': {'status': 'ok', 'version': VERSION, 'mode': 'public', 'examples': len(examples)}}.items():
             self.routes[route] = (self.json_bytes(data), 'application/json')
 
     @staticmethod
