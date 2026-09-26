@@ -1,0 +1,32 @@
+name: Verify release
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r requirements-public.txt
+      - run: python -m foodvision verify
+      - run: python -m unittest discover -s tests -v
+      - run: node --check --input-type=module < web/app.js
+      - run: python -m foodvision benchmark --output reports/my-ci-benchmark.json
+      - run: python -m gunicorn --check-config --config gunicorn.conf.py 'foodvision.public:create_app()'
+      - run: docker build -t aftermeal-ci .
+      - name: Smoke test container
+        run: |
+          docker run -d --name aftermeal-ci -p 127.0.0.1:8080:8080 --read-only --tmpfs /tmp aftermeal-ci
+          trap 'docker logs aftermeal-ci; docker rm -f aftermeal-ci' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/healthz; then break; fi
+            sleep 1
+          done
+          python scripts/smoke_public.py http://127.0.0.1:8080
