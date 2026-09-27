@@ -46,3 +46,14 @@ Developer review workspace: http://127.0.0.1:8765/lab. Original research photos 
 Import browser reviews with `python -m foodvision import-reviews --input reviews.json`. Visual reviews do not correct source masses.
 
 Developer collection workspace: http://127.0.0.1:8765/capture. [Collection instructions](docs/CAPTURE.md).
+
+## Sample-only service
+
+Install `requirements-public.txt`, then run:
+
+```bash
+python -m gunicorn --config gunicorn.conf.py --bind 127.0.0.1:8080 'foodvision.public:create_app()'
+```
+
+Public mode serves sample predictions and rejects upload, review and collection routes.
+[Deployment](docs/DEPLOY.md) · [Release checks](docs/RELEASE.md).
