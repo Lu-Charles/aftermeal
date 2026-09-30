@@ -1,1 +1,67 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aftermeal</title><link rel="stylesheet" href="/web/style.css"><script src="/web/app.js" defer></script></head><body><header><h1>Aftermeal</h1><p>Remaining food from before-and-after photos.</p></header><main><section><h2>Analyze a meal pair</h2><div id="examples"></div><div class="photos"><figure><img id="before" alt="Meal before eating"><figcaption>Before</figcaption></figure><figure><img id="after" alt="Meal after eating"><figcaption>After</figcaption></figure></div><p id="estimate" role="status">Select a sample.</p><p id="reference"></p> <label><input type="checkbox" id="highlight"> Show experimental food highlights</label><p id="highlight-status"></p> <section id="uploads"><h3>Your photos</h3><label>Before <input id="before-file" type="file" accept="image/jpeg,image/png"></label><label>After <input id="after-file" type="file" accept="image/jpeg,image/png"></label><label>Starting portion <select id="starting"><option value="">Choose an observation</option><option value="visible_food">Visible food</option><option value="empty_or_residue">Empty or residue</option><option value="uncertain">Uncertain</option></select></label><button id="analyze">Analyze pair</button></section><p id="status" role="status"></p></section><section><h2>Benchmark</h2><p>Group-balanced mean absolute error in percentage points. Lower is better.</p><div id="benchmark"></div></section><section><h2>About</h2><p>The model estimates remaining mass fraction, not grams. Sample photos are from LeFood-Set v1 (CC BY 4.0); benchmark features also include ACETADA (CC BY-NC 4.0). New settings may produce large errors.</p><p><a href="/lab">Review lab</a></p><p><a href="/capture">Collect weighed servings</a></p></section></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff"><title>Aftermeal — Food remaining</title>
+  <meta name="description" content="Compare before-and-after meal photos, inspect experimental food highlights, and explore a reproducible benchmark of leftover estimation.">
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="/web/style.css">
+  <script src="/web/app.js" type="module"></script>
+</head>
+<body data-source="examples">
+<svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></symbol>
+</defs></svg>
+<a class="skip-link" href="#main">Workspace</a>
+<header class="header">
+ <a class="brand" href="#analyze" aria-label="Aftermeal home"><span>Aftermeal</span></a>
+ <nav><a href="#view-analyze">Analyze</a> · <a href="#view-benchmark">Accuracy</a> · <a href="#view-about">About</a></nav>
+<nav class="project-tools"><a href="/lab">Review lab</a><a href="/capture">Collect data</a></nav></header>
+<main id="main" tabindex="-1">
+<section id="view-analyze" role="tabpanel" aria-label="Analyze">
+ <div class="page-heading"><h1>Food remaining</h1><p>Compare a meal before and after eating.</p></div>
+ <div class="workspace">
+  <section class="pair-workspace" aria-label="Photo pair analysis">
+   <div class="workspace-toolbar"><div class="mode-switch" aria-label="Image source"><button id="mode-examples" aria-pressed="true">Sample pairs</button><button id="mode-upload" aria-pressed="false">Your photos</button></div></div>
+   <p id="public-mode-note" class="public-mode-note" hidden>Choose a sample below.</p>
+   <div class="photos">
+    <div class="photo-column"><div class="photo-heading"><h2>Before</h2></div><label class="photo" id="before-zone"><span class="empty-photo"><svg class="icon"><use href="#i-upload"/></svg><strong>Add before photo</strong></span><img id="before-image" src="/examples/images/L492_before.jpg" alt="Meal before eating"><input id="before-input" type="file" accept="image/jpeg,image/png" aria-label="Choose before photo"><span class="photo-edit">Change photo</span></label></div>
+    <div class="photo-column"><div class="photo-heading"><h2>After</h2></div><label class="photo" id="after-zone"><span class="empty-photo"><svg class="icon"><use href="#i-upload"/></svg><strong>Add after photo</strong></span><img id="after-image" src="/examples/images/L492_after.jpg" alt="The same meal after eating"><input id="after-input" type="file" accept="image/jpeg,image/png" aria-label="Choose after photo"><span class="photo-edit">Change photo</span></label></div>
+   </div>
+   <div id="highlight-controls" class="highlight-controls"><label><input id="show-highlight" type="checkbox" checked> Highlight food</label><p id="highlight-status" role="status" hidden></p></div>
+   <div id="sample-tray"><div class="examples" id="examples" aria-label="Example photo pairs"></div></div>
+   <p id="upload-guide" hidden>Same meal, before and after. JPG or PNG · up to 8 MB.</p>
+   <label id="starting-control">Starting portion <select id="starting-portion"><option value="">Choose</option><option value="visible_food">Visible food</option><option value="empty_or_residue">Empty or residue</option><option value="uncertain">Uncertain</option></select></label><div class="action-row" hidden><button id="analyze" class="primary-button"><span class="button-text">Analyze pair</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
+   <section id="input-feedback" hidden tabindex="-1" aria-labelledby="input-feedback-title"><h2 id="input-feedback-title">Check this pair</h2><ul id="input-issues"></ul></section>
+   <p id="status" class="status" role="status" aria-live="polite"></p>
+  </section>
+  <section class="result-panel" aria-label="Model estimate" aria-busy="false">
+   <div class="result-summary" aria-live="polite" aria-atomic="true"><div class="result-value"><span class="approx" aria-label="approximately">≈</span><span id="estimate">—</span><span class="percent">%</span></div><p>Estimated remaining<span class="result-caveat">Experimental estimate</span></p></div>
+   <div id="reference" class="reference" hidden><div><span>Recorded remaining</span><strong id="recorded">—</strong></div><div><span>Error (points)</span><strong id="error">—</strong></div></div>
+   <details class="model-details"><summary>About this estimate<svg class="icon disclosure-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="estimate-details"><p id="sample-explanation" hidden></p>
+    <p id="result-explanation">Select a pair to see its estimate.</p>
+    <dl><div><dt>Encoder</dt><dd>DINOv2 ViT-S/14</dd></div><div><dt>Features</dt><dd>Cosine change</dd></div><div><dt>Calibration</dt><dd>50 LeFood pairs</dd></div><div><dt>Output range</dt><dd>0–125%</dd></div></dl>
+    <p>Photos cannot establish weight in grams. Highlights can include residue and do not determine the estimate. <a href="#about">About Aftermeal</a></p>
+   </div></details>
+  </section>
+ </div>
+
+</section>
+<section id="view-benchmark" role="tabpanel" aria-label="Accuracy">
+ <div class="page-heading"><h1>Accuracy</h1><p>Tested on 1,316 before-and-after pairs.</p></div>
+ <div id="benchmark-charts" class="benchmark-results"><p>Loading results…</p></div>
+ <p class="accuracy-note">Change features help on LeFood; appearance features do slightly better on ACETADA. Accuracy on new phone photos is unmeasured.</p>
+ <details class="info-row"><summary>What do these numbers mean?<span aria-hidden="true">+</span></summary><p>These are average errors in percentage points. Predicting 50% when 40% remains gives an error of 10 points. Lower is better; 9.63 points does not mean 90.37% accuracy.</p></details>
+ <details class="info-row"><summary>Evaluation method<span aria-hidden="true">+</span></summary><p>Five held-out folds per dataset, with 50 calibration pairs per fit. Food categories or participants and reviewed similar images stay separate across fitting boundaries. Model selection uses inner validation; errors are averaged within groups, then across groups.</p><p>One calibration repetition. These results measure within-dataset calibration, not transfer to new settings.</p></details>
+</section>
+<section id="view-about" role="tabpanel" aria-label="About">
+ <div class="page-heading"><h1>About Aftermeal</h1><p>Food-leftover estimation from paired photos.</p></div>
+ <div class="about-content">
+  <section><h2>What to expect</h2><p>Aftermeal compares normalized DINOv2 embeddings from photographs of the same serving before and after eating. A group-weighted kernel regressor estimates the ratio of remaining mass to starting mass. The model was calibrated on fifty labeled pairs from one LeFood fold. Lighting, framing, unfamiliar dishes and residue may produce substantial errors. Predicted segmentation highlights are a separate visual aid and do not determine the percentage.</p></section>
+  <section><h2>Your photos</h2><p id="privacy-description">Local uploads are processed in memory and are not saved.</p></section>
+  <details class="info-row"><summary>Data and credits<span aria-hidden="true">+</span></summary><p>Sample photos: <a href="https://data.mendeley.com/datasets/cchsk79jkt/1" target="_blank" rel="noopener">LeFood-Set v1 ↗</a>, by Yuita Arum Sari, Yudi Arimba Wani and Atsushi Nakazawa. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 ↗</a>. Overlays add predicted food regions.</p><p>The benchmark also uses derived features from <a href="https://skynet.ecn.purdue.edu/~coburn6/ACETADA/" target="_blank" rel="noopener">ACETADA ↗</a>, by Bruce Coburn and colleagues, under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0 ↗</a>.</p></details>
+ </div>
+</section>
+</main>
+<footer><span id="runtime-label">Aftermeal</span><a href="#about">About &amp; credits</a></footer>
+</body></html>
