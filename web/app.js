@@ -204,6 +204,40 @@ async function chooseFile(slot, file) {
   status("");
 }
 
+async function loadBenchmark() {
+  const data = await requestJSON("/api/benchmark");
+  const container = $("benchmark-charts");
+  container.replaceChildren();
+  const methods = [
+    ["Mean", "Constant average", "Uses the training-set average for every pair."],
+    ["Median", "Constant median", "Uses the training-set middle value for every pair."],
+    ["Appearance", "Image appearance", "Uses image features without an explicit change calculation."],
+    ["Change", "Before/after change", "Uses differences between the two images. The demo uses this model family."]
+  ];
+  const table = document.createElement("table"); table.className = "accuracy-table";
+  const caption = document.createElement("caption"); caption.textContent = "Average error · percentage points · lower is better";
+  table.append(caption);
+  const head = document.createElement("thead"), header = document.createElement("tr");
+  for (const title of ["Method", "LeFood", "ACETADA"]) {
+    const th = document.createElement("th"); th.scope = "col"; th.textContent = title;
+    if (data.summary[title]) { const small = document.createElement("span"); small.textContent = `${data.summary[title].records} pairs`; th.append(small); }
+    header.append(th);
+  }
+  head.append(header); table.append(head);
+  const body = document.createElement("tbody");
+  for (const [key, title, explanation] of methods) {
+    const row = document.createElement("tr"), label = document.createElement("th");
+    label.scope = "row"; label.textContent = title;
+    row.append(label);
+    for (const name of ["LeFood", "ACETADA"]) {
+      const cell = document.createElement("td");
+      cell.textContent = data.summary[name].mae_percentage_points[key].toFixed(2);
+      row.append(cell);
+    }
+    body.append(row);
+  }
+  table.append(body); container.append(table);
+}
 
 $("analyze").addEventListener("click", analyze);
 for (const slot of ["before", "after"]) {
@@ -282,5 +316,3 @@ $("mode-examples").addEventListener("click", () => {
   if (sourceMode !== "examples" && examples.length) chooseExample(examples.find(item => item.id === "L492"));
 });
 
-
-async function loadBenchmark() { const data=await requestJSON('/api/benchmark'); const target=$('benchmark-charts');target.replaceChildren();for(const [source,metrics] of Object.entries(data.summary)){const heading=document.createElement('h2');heading.textContent=source;target.append(heading);for(const [method,error] of Object.entries(metrics.mae_percentage_points)){const row=document.createElement('p');row.textContent=`${method}: ${error.toFixed(2)} pp`;const bar=document.createElement('progress');bar.max=100;bar.value=error;row.append(bar);target.append(row);}}}
