@@ -1,7 +1,7 @@
 """Deterministic input checks; visual assertions are explicitly user supplied."""
 import hashlib
 import json
-POLICY_VERSION = 'input-checks-v1'
+POLICY_VERSION = 'input-checks-v2'
 MIN_SIDE = 224
 STARTING_PORTIONS = {'visible_food', 'empty_or_residue', 'uncertain'}
 
@@ -25,7 +25,7 @@ def inspect_pair(images, starting_portion=None, flagged_images=()):
         matched = [f for f in flagged_images if f['decoded_rgb_sha256'] == digests[0]]
         if matched:
             issues.append({'code': 'known_starting_image_flag', 'image': 'before', 'message': 'This starting image matches an unresolved source-review flag. Use a verified starting photograph.', 'records': [f['record_id'] for f in matched], 'evidence': 'AI review proposal, not a verified empty-plate label'})
-        if starting_portion != 'visible_food':
+        if starting_portion == 'empty_or_residue':
             issues.append({'code': 'starting_portion_unverified', 'image': 'before', 'message': 'Choose a before photo with food on the plate.'})
         if issues:
             status = 'needs_review'

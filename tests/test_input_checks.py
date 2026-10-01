@@ -1,12 +1,17 @@
 """Ensure invalid or explicitly unsuitable inputs cannot reach expensive inference."""
+import base64
+from http.client import HTTPConnection
+from http.server import ThreadingHTTPServer
 import io
 import json
+import threading
 import unittest
 from unittest.mock import patch
 import numpy as np
 from PIL import Image, PngImagePlugin
 from foodvision.inference import Predictor, ROOT
 from foodvision.input_checks import inspect_pair, pixel_digest
+from foodvision.server import make_handler
 
 def photo(reverse=False):
     pixels = np.tile(np.arange(256, dtype=np.uint8), (256, 1))
@@ -22,6 +27,14 @@ def encoded(image, comment=''):
     return output.getvalue()
 
 class InputChecks(unittest.TestCase):
+
+    def test_missing_and_uncertain_observations_allow_analysis_without_asserting_food_presence(self):
+        for observation in (None, 'uncertain'):
+            report = inspect_pair([photo(), photo(True)], observation)
+            self.assertEqual(report['status'], 'ready')
+            self.assertEqual(report['starting_portion']['value'], observation)
+            self.assertFalse(report['automatic_food_detection'])
+        self.assertEqual(inspect_pair([photo(), photo(True)])['starting_portion']['source'], 'not_provided')
 
     def test_same_pixels_different_file_metadata_are_rejected_without_encoder(self):
         first, second = (encoded(photo(), 'first'), encoded(photo(), 'second'))
@@ -67,5 +80,33 @@ class InputChecks(unittest.TestCase):
         registry = json.loads((ROOT / 'data/input_review_flags.json').read_text())
         self.assertEqual(registry['images'][0]['record_id'], 'L476')
         self.assertIn('not human adjudicated', registry['images'][0]['label_type'])
+
+class InputHttpChecks(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        handler = make_handler()
+        handler.log_message = lambda *args: None
+        cls.server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+        cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
+        cls.thread.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.thread.join()
+
+    def test_direct_api_without_observation_reaches_encoder(self):
+        payload = {'before': base64.b64encode(encoded(photo())).decode(), 'after': base64.b64encode(encoded(photo(True))).decode()}
+        connection = HTTPConnection('127.0.0.1', self.server.server_port, timeout=5)
+        with patch('foodvision.inference.image_encoder', side_effect=RuntimeError('Encoder reached')) as encoder:
+            connection.request('POST', '/api/predict', json.dumps(payload), {'Content-Type': 'application/json'})
+            response = connection.getresponse()
+            body = json.loads(response.read())
+        connection.close()
+        self.assertEqual(response.status, 503)
+        self.assertEqual(body['error'], 'Encoder reached')
+        encoder.assert_called_once()
 if __name__ == '__main__':
     unittest.main()

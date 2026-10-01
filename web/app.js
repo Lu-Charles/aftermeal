@@ -67,7 +67,7 @@ async function analyze() {
   $("analyze").querySelector(".button-text").textContent = "Analyzing…";
   status(currentExample ? "Comparing the saved image features…" : "Analyzing photos…");
   try {
-    const payload = currentExample ? { example_id: currentExample.id } : {...upload, starting_portion:$("starting-portion").value||null};
+    const payload = currentExample ? { example_id: currentExample.id } : {...upload};
     if (!currentExample && (!upload.before || !upload.after)) throw new Error("Choose both a before photo and an after photo.");
     if (!currentExample && $("show-highlight").checked) highlightUploads();
     const data = await requestJSON("/api/predict", payload, currentExample ? 10000 : 120000);
@@ -282,7 +282,6 @@ function clearResult() {
 }
 
 function setMode(mode) {
-  $("starting-control").hidden = mode !== "upload";
   sourceMode = mode;
   document.body.dataset.source = mode;
   document.querySelector(".action-row").hidden = mode !== "upload";
