@@ -52,6 +52,11 @@
  <div id="benchmark-charts" class="benchmark-results"><p>Loading results…</p></div>
  <p class="accuracy-note">Change features help on LeFood; appearance features do slightly better on ACETADA. Accuracy on new phone photos is unmeasured.</p>
  <details class="info-row"><summary>What do these numbers mean?<span aria-hidden="true">+</span></summary><p>These are average errors in percentage points. Predicting 50% when 40% remains gives an error of 10 points. Lower is better; 9.63 points does not mean 90.37% accuracy.</p></details>
+ <details id="failure-case" class="info-row"><summary>A difficult example<span aria-hidden="true">+</span></summary>
+  <div class="failure-photos"><figure><img src="/examples/images/L81_before.jpg" alt="Rice before the meal" loading="lazy"><figcaption>Before</figcaption></figure><figure><img src="/examples/images/L81_after.jpg" alt="Rice remaining after the meal" loading="lazy"><figcaption>After</figcaption></figure></div>
+  <dl id="failure-metrics" class="failure-metrics" hidden><div><dt>Estimated</dt><dd id="failure-estimate"></dd></div><div><dt>Recorded</dt><dd id="failure-recorded"></dd></div><div><dt>Error</dt><dd id="failure-error"></dd></div></dl>
+  <p>Similar-looking portions can have very different weights.</p><p id="failure-status" role="status"></p><button id="retry-failure" class="secondary-button" hidden>Retry</button>
+ </details>
  <details class="info-row"><summary>Evaluation method<span aria-hidden="true">+</span></summary><p>Five held-out folds per dataset, with 50 calibration pairs per fit. Food categories or participants and reviewed similar images stay separate across fitting boundaries. Model selection uses inner validation; errors are averaged within groups, then across groups.</p><p>One calibration repetition. These results measure within-dataset calibration, not transfer to new settings.</p></details>
 </section>
 <section id="view-about" role="tabpanel" aria-label="About">

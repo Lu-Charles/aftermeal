@@ -256,7 +256,7 @@ async function start() {
   $("runtime-label").textContent = "Aftermeal";
   $("privacy-description").textContent = "Sample predictions use bundled features. Photo inference, when enabled in the local service, runs on this computer. The separate collection tool explicitly saves its records locally.";
   examples = await requestJSON("/api/examples");
-  const order = ["L133", "L492", "L388", "L81"];
+  const order = ["L133", "L492", "L388"];
   for (const id of order) {
     const example = examples.find(item => item.id === id);
     const button = document.createElement("button"); button.type = "button"; button.className = "example"; button.dataset.id = id;
@@ -314,4 +314,27 @@ $("mode-upload").addEventListener("click", () => {
 $("mode-examples").addEventListener("click", () => {
   if (sourceMode !== "examples" && examples.length) chooseExample(examples.find(item => item.id === "L492"));
 });
+
+let failureLoaded = false;
+let failureLoading = false;
+async function loadFailure() {
+  if (failureLoaded || failureLoading) return;
+  failureLoading = true;
+  $("failure-status").textContent = "Loading result…";
+  $("retry-failure").hidden = true;
+  try {
+    const data = await requestJSON("/api/predict", {example_id:"L81"});
+    $("failure-estimate").textContent = (data.estimated_fraction * 100).toFixed(1) + "%";
+    $("failure-recorded").textContent = (data.recorded_fraction * 100).toFixed(1) + "%";
+    $("failure-error").textContent = (Math.abs(data.estimated_fraction - data.recorded_fraction) * 100).toFixed(1) + " points";
+    $("failure-metrics").hidden = false;
+    $("failure-status").textContent = "";
+    failureLoaded = true;
+  } catch {
+    $("failure-status").textContent = "Could not load this result.";
+    $("retry-failure").hidden = false;
+  } finally { failureLoading = false; }
+}
+$("failure-case").addEventListener("toggle", () => { if ($("failure-case").open) loadFailure(); });
+$("retry-failure").addEventListener("click", loadFailure);
 
