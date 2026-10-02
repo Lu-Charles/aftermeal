@@ -338,3 +338,34 @@ async function loadFailure() {
 $("failure-case").addEventListener("toggle", () => { if ($("failure-case").open) loadFailure(); });
 $("retry-failure").addEventListener("click", loadFailure);
 
+let activeView = null;
+const viewScroll = {};
+function showView(name, updateHash = true) {
+  if (!["analyze", "benchmark", "about"].includes(name)) name = "analyze";
+  const changed = activeView !== name;
+
+  document.querySelectorAll("[data-view]").forEach(tab => {
+    const selected = tab.dataset.view === name;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    $("view-" + tab.dataset.view).hidden = !selected;
+  });
+  document.title = `Aftermeal — ${{analyze:"Analyze", benchmark:"Accuracy", about:"About"}[name]}`;
+  if (activeView && activeView !== name && sourceMode === "upload") { uploadedResult = null; clearResult(); }
+  activeView = name;
+  if (changed) window.scrollTo(0, 0);
+  if (updateHash && location.hash !== "#" + name) location.hash = name;
+}
+document.querySelectorAll("[data-view]").forEach((tab, index, tabs) => {
+  tab.addEventListener("click", () => showView(tab.dataset.view));
+
+});
+document.querySelector(".skip-link").addEventListener("click", event => {
+  event.preventDefault();
+  $("main").focus();
+});
+window.addEventListener("hashchange", () => showView(location.hash.slice(1), false));
+if (location.pathname === "/case-study" || location.pathname === "/web/case-study.html") {
+  history.replaceState(null, "", "/#about");
+}
+showView(location.hash.slice(1), false);

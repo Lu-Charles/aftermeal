@@ -15,10 +15,10 @@
 <a class="skip-link" href="#main">Workspace</a>
 <header class="header">
  <a class="brand" href="#analyze" aria-label="Aftermeal home"><span>Aftermeal</span></a>
- <nav><a href="#view-analyze">Analyze</a> · <a href="#view-benchmark">Accuracy</a> · <a href="#view-about">About</a></nav>
+ <nav class="main-tabs" role="tablist" aria-label="Project views"><button id="tab-analyze" role="tab" aria-selected="true" aria-controls="view-analyze" data-view="analyze">Analyze</button><button id="tab-benchmark" role="tab" aria-selected="false" aria-controls="view-benchmark" data-view="benchmark" tabindex="-1">Accuracy</button><button id="tab-about" role="tab" aria-selected="false" aria-controls="view-about" data-view="about" tabindex="-1">About</button></nav>
 <nav class="project-tools"><a href="/lab">Review lab</a><a href="/capture">Collect data</a></nav></header>
 <main id="main" tabindex="-1">
-<section id="view-analyze" role="tabpanel" aria-label="Analyze">
+<section id="view-analyze" role="tabpanel" aria-labelledby="tab-analyze">
  <div class="page-heading"><h1>Food remaining</h1><p>Compare a meal before and after eating.</p></div>
  <div class="workspace">
   <section class="pair-workspace" aria-label="Photo pair analysis">
@@ -47,7 +47,7 @@
  </div>
 
 </section>
-<section id="view-benchmark" role="tabpanel" aria-label="Accuracy">
+<section id="view-benchmark" role="tabpanel" aria-labelledby="tab-benchmark" hidden>
  <div class="page-heading"><h1>Accuracy</h1><p>Tested on 1,316 before-and-after pairs.</p></div>
  <div id="benchmark-charts" class="benchmark-results"><p>Loading results…</p></div>
  <p class="accuracy-note">Change features help on LeFood; appearance features do slightly better on ACETADA. Accuracy on new phone photos is unmeasured.</p>
@@ -59,7 +59,7 @@
  </details>
  <details class="info-row"><summary>Evaluation method<span aria-hidden="true">+</span></summary><p>Five held-out folds per dataset, with 50 calibration pairs per fit. Food categories or participants and reviewed similar images stay separate across fitting boundaries. Model selection uses inner validation; errors are averaged within groups, then across groups.</p><p>One calibration repetition. These results measure within-dataset calibration, not transfer to new settings.</p></details>
 </section>
-<section id="view-about" role="tabpanel" aria-label="About">
+<section id="view-about" role="tabpanel" aria-labelledby="tab-about" hidden>
  <div class="page-heading"><h1>About Aftermeal</h1><p>Food-leftover estimation from paired photos.</p></div>
  <div class="about-content">
   <section><h2>What to expect</h2><p>Aftermeal compares normalized DINOv2 embeddings from photographs of the same serving before and after eating. A group-weighted kernel regressor estimates the ratio of remaining mass to starting mass. The model was calibrated on fifty labeled pairs from one LeFood fold. Lighting, framing, unfamiliar dishes and residue may produce substantial errors. Predicted segmentation highlights are a separate visual aid and do not determine the percentage.</p></section>
