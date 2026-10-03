@@ -71,7 +71,7 @@ async function analyze() {
     if (!currentExample && (!upload.before || !upload.after)) throw new Error("Choose both a before photo and an after photo.");
     if (!currentExample && $("show-highlight").checked) highlightUploads();
     const data = await requestJSON("/api/predict", payload, currentExample ? 10000 : 120000);
-
+    if (version !== requestVersion) return;
     if (data.status === "needs_review" || data.status === "rejected") {
       $("input-feedback-title").textContent = "Choose another photo";
       $("input-issues").replaceChildren();
@@ -154,12 +154,12 @@ async function highlightUploads() {
   $("highlight-status").textContent = "Highlighting food…";
   try {
     const data = await requestJSON("/api/highlight", upload, 120000);
-
+    if (version !== highlightRequest || sourceMode !== "upload") return;
     uploadHighlights = data.images;
     showSamplePhotos();
     $("highlight-status").hidden = true;
   } catch (error) {
-
+    if (version !== highlightRequest || sourceMode !== "upload") return;
     $("highlight-status").textContent = error.message;
   }
 }
@@ -176,7 +176,7 @@ async function chooseFile(slot, file) {
     reader.onerror = () => reject(new Error("Could not read this photo."));
     reader.readAsDataURL(file);
   });
-
+  if (fileVersion !== fileVersions[slot]) return;
   ++requestVersion;
   setMode("upload");
   if (currentExample) {
@@ -311,7 +311,7 @@ $("mode-upload").addEventListener("click", () => {
   status("");
 });
 $("mode-examples").addEventListener("click", () => {
-  if (sourceMode !== "examples" && examples.length) chooseExample(examples.find(item => item.id === "L492"));
+  if (sourceMode !== "examples" && examples.length) chooseExample(examples.find(item => item.id === lastExampleId));
 });
 
 let failureLoaded = false;
