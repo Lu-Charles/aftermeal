@@ -342,7 +342,7 @@ const viewScroll = {};
 function showView(name, updateHash = true) {
   if (!["analyze", "benchmark", "about"].includes(name)) name = "analyze";
   const changed = activeView !== name;
-
+  if (changed && activeView) viewScroll[activeView] = window.scrollY;
   document.querySelectorAll("[data-view]").forEach(tab => {
     const selected = tab.dataset.view === name;
     tab.setAttribute("aria-selected", String(selected));
@@ -351,12 +351,17 @@ function showView(name, updateHash = true) {
   });
   document.title = `Aftermeal — ${{analyze:"Analyze", benchmark:"Accuracy", about:"About"}[name]}`;
   activeView = name;
-  if (changed) window.scrollTo(0, 0);
+  if (changed) window.scrollTo(0, viewScroll[name] || 0);
   if (updateHash && location.hash !== "#" + name) location.hash = name;
 }
 document.querySelectorAll("[data-view]").forEach((tab, index, tabs) => {
   tab.addEventListener("click", () => showView(tab.dataset.view));
-
+  tab.addEventListener("keydown", event => {
+    const keys = { ArrowRight: (index + 1) % tabs.length, ArrowLeft: (index - 1 + tabs.length) % tabs.length, Home: 0, End: tabs.length - 1 };
+    if (!(event.key in keys)) return;
+    event.preventDefault();
+    const next = tabs[keys[event.key]]; next.focus(); showView(next.dataset.view);
+  });
 });
 document.querySelector(".skip-link").addEventListener("click", event => {
   event.preventDefault();
