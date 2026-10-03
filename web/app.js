@@ -301,7 +301,6 @@ $("mode-upload").addEventListener("click", () => {
   ++highlightRequest;
   currentExample = null;
   $("highlight-status").hidden = true;
-  upload = {before:null,after:null}; uploadOriginals = {}; uploadHighlights = null; uploadedResult = null;
   setMode("upload");
   showSamplePhotos();
   clearResult();
@@ -351,7 +350,6 @@ function showView(name, updateHash = true) {
     $("view-" + tab.dataset.view).hidden = !selected;
   });
   document.title = `Aftermeal — ${{analyze:"Analyze", benchmark:"Accuracy", about:"About"}[name]}`;
-  if (activeView && activeView !== name && sourceMode === "upload") { uploadedResult = null; clearResult(); }
   activeView = name;
   if (changed) window.scrollTo(0, 0);
   if (updateHash && location.hash !== "#" + name) location.hash = name;
