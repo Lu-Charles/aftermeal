@@ -250,3 +250,26 @@ body[data-source] .accuracy-table td { font-size: 22px; }
 .about-content h2 { font-size: 21px; margin: 0 0 10px; }
 .about-content p { color: var(--secondary); margin: 0; }
 .about-content .info-row p { margin-bottom: 18px; }
+@media (max-width: 700px) {
+ body[data-source] .result-panel { display: block; padding: 24px 20px 4px; }
+ body[data-source] .result-summary { flex-direction: row; gap: 18px; }
+ body[data-source] .result-summary > p { font-size: 16px; }
+ body[data-source] .result-caveat { font-size: 13px; }
+ .failure-metrics { gap: 12px; padding: 16px; }
+ .failure-metrics dd { font-size: 20px; }
+ .failure-photos { gap: 12px; }
+}
+@media (max-width: 600px) {
+ body[data-source] .header { height: 72px; flex-direction: row; flex-wrap: nowrap; gap: 20px; padding: 0 20px; }
+ body[data-source] .brand { font-size: 22px; }
+ body[data-source] .main-tabs { gap: 16px; width: auto; }
+ body[data-source] .main-tabs button { font-size: 14px; }
+ body[data-source] .page-heading { padding: 26px 0; }
+ body[data-source] .page-heading p { font-size: 17px; }
+ .failure-metrics dd { font-size: 18px; }
+}
+@media (max-width: 360px) {
+ body[data-source] .header { gap: 12px; padding: 0 16px; }
+ body[data-source] .brand { font-size: 20px; }
+ body[data-source] .main-tabs { gap: 12px; }
+}
