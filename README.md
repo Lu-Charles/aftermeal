@@ -57,3 +57,5 @@ python -m gunicorn --config gunicorn.conf.py --bind 127.0.0.1:8080 'foodvision.p
 
 Public mode serves sample predictions and rejects upload, review and collection routes.
 [Deployment](docs/DEPLOY.md) · [Release checks](docs/RELEASE.md).
+
+The product navigation contains Analyze, Accuracy and About. Review and collection are developer tools accessed through their direct local URLs.
