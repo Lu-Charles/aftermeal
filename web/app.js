@@ -254,7 +254,7 @@ async function start() {
   $("public-mode-note").hidden = config.mode !== "public";
   document.querySelector(".workspace-toolbar").hidden = !config.uploads;
   $("runtime-label").textContent = "Aftermeal";
-  $("privacy-description").textContent = "Sample predictions use bundled features. Photo inference, when enabled in the local service, runs on this computer. The separate collection tool explicitly saves its records locally.";
+  $("privacy-description").textContent = config.mode === "public" ? "This demo uses sample photos and does not collect uploads." : "Your photos stay on this computer and are not saved.";
   examples = await requestJSON("/api/examples");
   const order = ["L133", "L492", "L388"];
   for (const id of order) {
