@@ -1,66 +1,49 @@
-# Deploying Aftermeal 1.0
+# Hosting Aftermeal
 
-The public release is a sample analysis demo. Four held-out pairs use the same compact regression head as local inference; predictions are computed from saved embeddings at worker startup. Upload analysis, original research-image access and SQLite collection remain local tools. No GPU, external API, RunPod account or persistent disk is required for the public service.
+The website runs at https://aftermeal.onrender.com. Render builds the connected repository's Dockerfile from `main`. The image includes the pinned DINOv2 encoder converted to ONNX and the existing regression head. Inference runs on CPU and uses no persistent storage.
 
-## Run the public service
-
-From this project directory (or the extracted standalone release), use Python 3.12:
+## Container and Render
 
 ```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-public.txt
-python -m gunicorn --config gunicorn.conf.py --bind 127.0.0.1:8080 'foodvision.public:create_app()'
-```
-
-Open http://127.0.0.1:8080. In another terminal:
-
-```bash
+docker build -t aftermeal:1.1 .
+docker run --rm -p 127.0.0.1:8080:8080 --memory=512m --memory-swap=512m --read-only --tmpfs /tmp aftermeal:1.1
 python scripts/smoke_public.py http://127.0.0.1:8080
 ```
 
-For a container host:
+Use Render's Docker web service, `main` branch, and `/healthz` health check. The image listens on `PORT` (8080 by default), runs as UID 10001, and enables `AFTERMEAL_HOSTED_UPLOADS=1`. Free instances sleep when idle, so the first visit can take about a minute to wake. The build exports the encoder, verifies its checksum and compares predictions with PyTorch on all four sample pairs. DINOv2's license is copied alongside the exported model.
 
-```bash
-docker build -t aftermeal:1.0 .
-docker run --rm -p 127.0.0.1:8080:8080 --read-only --tmpfs /tmp aftermeal:1.0
-```
+Gunicorn runs one model process with four request threads. Only one upload can read its body or run inference at a time; other threads serve health and sample requests. The process accepts up to 12 upload attempts per minute. Busy requests return 429 with `Retry-After`. Increasing workers duplicates model memory. Keep one worker on the 512 MB instance. Render provides HTTPS.
 
-The Docker image listens on `PORT` (8080 by default) on all container interfaces, runs as UID 10001, and uses `/healthz` as its health check. A hosting service should provide HTTPS and reverse-proxy request/connection limits. Set a 2 KB proxy body limit; the app enforces a stricter 1 KB JSON limit. Do not expose the local `python -m foodvision demo` server publicly.
+The CI container smoke runs with a 512 MB memory limit and 0.1 CPU, verifies actual photo inference, and checks that PyTorch is absent from the serving image. The browser permits 180 seconds for upload analysis and 90 seconds for initial configuration after a cold start. Aborting a browser request does not cancel work already running on the server.
 
-Gunicorn has two synchronous workers, a backlog of 64 and a 15-second timeout. Requests serve preloaded bytes or select one of four predictions: there is no heavy inference queue. Slow or stalled workers are replaced. These settings bound work per process, but do not establish production capacity or provide distributed rate limiting. Host-level traffic controls are required before a broad launch. [Gunicorn settings reference](https://gunicorn.org/reference/settings/).
+## Upload behavior
+
+Choose **Your photos**, select before/after JPG or PNG images, then **Analyze pair**. The browser accepts originals up to 8 MB and scales large images to at most 1600 pixels on their longest side before upload. The server independently limits each image to 4 MB and 4 megapixels, applies EXIF orientation, and checks duplicate, invalid, constant, undersized and known flagged images. Encoding uses a 256-pixel resize followed by a 224-pixel center crop. Resizing a large original before upload can slightly change its prediction.
+
+The photo pair is sent over HTTPS and processed in memory without saving photos or results. Access logs omit request bodies, client IPs, queries, referrers and user agents. Render may have its own infrastructure logs. Food highlights are available for sample pairs only.
 
 ## API
 
 | Route | Contract |
 |---|---|
-| `GET /healthz` | Worker booted successfully, assets verified, version and mode |
+| `GET /healthz` | Version, mode, upload capability; model loaded and warmed in hosted mode |
 | `GET /api/config` | Available capabilities and sample/model hashes |
 | `GET /api/examples` | Four available photo pairs |
 | `POST /api/predict` | JSON with exactly one string `example_id`; maximum 1 KB |
-| `GET /api/benchmark` | Saved benchmark result; reproduction is a separate CLI command |
-| `GET /case-study` | Compatibility entry into the main app’s About view |
+| `POST /api/upload` | JSON with exactly `before` and `after`, each plain base64 image bytes; maximum 12 MB request body |
+| `GET /api/benchmark` | Saved benchmark result |
+| `GET /case-study` | Compatibility entry into the main app's About view |
 
-`HEAD` is supported for GET resources. Invalid JSON/IDs return 400, wrong content type 415, excess body length 413, cross-host browser origins 403, unsupported prediction methods 405, and unavailable/private routes 404. Uploads, `/lab`, `/capture`, and their APIs are absent from the public application, even if requested directly. The public app never initializes a capture database.
+Uploads return the estimated fraction and input checks, or a rejected/review status without an estimate. Invalid input returns 400, cross-host browser origins 403, oversized bodies 413, wrong content type 415, busy/rate-limited service 429, and unavailable inference 503. `/lab`, `/capture`, `/api/highlight` and collection APIs are absent from the hosted service.
 
-The UI times out sample requests after 10 seconds and optional local upload/highlight requests after 120 seconds. Aborting a local browser request does not interrupt an already-running encoder download or computation. A slow highlight no longer blocks display of a completed estimate.
+## Development
 
-## Data and privacy
+See [DEVELOPMENT.md](DEVELOPMENT.md) for environment setup, a sample-only preview and tests.
 
-The public service has no analytics, upload, login or review-submission endpoint and does not store visitor input. App access logs omit client IPs, query strings, referrers, user agents and request bodies. The hosting provider may have separate logs. See [data attribution](DATA.md) for asset licenses. Local research-lab reviews and weighed collection are separate tools and are not served publicly.
-
-## Repository and source package
-
-This working directory sits inside a larger local workspace. Publish the **standalone `aftermeal/` package**, not its parent directory. The workflow at `.github/workflows/ci.yml` expects this project to be the repository root.
+## Source package
 
 ```bash
-python scripts/package_release.py .local/releases/aftermeal-1.0.2.zip
+python scripts/package_release.py .local/releases/aftermeal-1.1.0.zip
 ```
 
-The packaging script uses an allowlist and refuses to replace an existing ZIP. It excludes environments, downloaded weights, feature/mask caches, `.local` databases, exported personal records and unrelated projects. It includes existing numerical experiment reports and attributed LeFood figures. The original workbook's absolute local path is redacted in the packaged source-audit report; `RELEASE-MANIFEST.json` records that change and hashes every packaged file. The source workspace and original reports stay unchanged.
-
-## Validation and remaining publication steps
-
-Release verification is recorded in [RELEASE.md](RELEASE.md). CI installs only public dependencies, runs Python tests and JavaScript syntax checks, reproduces the full feature benchmark, validates Gunicorn configuration, builds the container and runs its black-box smoke test.
-
-Before publication, choose the repository and hosting account, inspect the packaged files, and configure the host's HTTPS and traffic limits. No repository push, hosted service, paid resource or public URL has been created by preparing this release. The Docker daemon was unavailable during local verification; container build/run remains to be verified in CI or on a Docker-enabled host. The same Gunicorn application was exercised locally from a fresh environment.
+The allowlisted source ZIP excludes environments, downloaded/exported weights, caches, local databases and personal records. The Docker build regenerates the encoder. `RELEASE-MANIFEST.json` hashes packaged files and records the dataset-relative workbook path in the packaged source audit. Data attribution is in [DATA.md](DATA.md).

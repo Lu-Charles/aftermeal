@@ -14,15 +14,15 @@ MAX_IMAGE_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_PIXELS = 20000000
 ENCODER_LOCK = threading.Lock()
 
-def decode_image(payload: bytes) -> Image.Image:
+def decode_image(payload: bytes, *, max_pixels=MAX_IMAGE_PIXELS) -> Image.Image:
     if not payload or len(payload) > MAX_IMAGE_BYTES:
         raise ValueError('Each photo must be a nonempty JPEG or PNG smaller than 8 MB.')
     try:
         with Image.open(io.BytesIO(payload)) as source:
             if source.format not in {'JPEG', 'PNG'}:
                 raise ValueError('Please choose JPEG or PNG photos.')
-            if source.width * source.height > MAX_IMAGE_PIXELS:
-                raise ValueError('Resize photos to at most 20 megapixels.')
+            if source.width * source.height > max_pixels:
+                raise ValueError(f'Resize photos to at most {max_pixels / 1_000_000:g} megapixels.')
             source.load()
             return ImageOps.exif_transpose(source).convert('RGB')
     except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:

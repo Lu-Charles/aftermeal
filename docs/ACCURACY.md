@@ -1,15 +1,14 @@
-# Accuracy audit and next experiment
+# Failure analysis
 
-**Recommendation: retain the mass-estimation target as experimental, audit the image/weight labels, then compare image features, food-mask features, and their combination.** A category pivot or replacement architecture has not been selected. No segmentation model was trained or integrated in this audit.
+This audit checks source mappings and failure cases in the experimental mass estimator. The subsequent segmentation and depth comparisons are documented in [EXPERIMENTS.md](EXPERIMENTS.md) and [DEPTH.md](DEPTH.md).
 
 ## What was reproduced
 
-- All 19 pre-existing tests passed. After adding diagnostic checks, all 24 tests passed.
 - The complete 1,316-pair benchmark was refitted and matched its reference predictions within the existing `1e-10` tolerance. [Fresh baseline report](../reports/baseline-recheck.json).
-- The running browser demo displayed 4.2% for L133. Fresh CPU encoding of six raw pairs reproduced their cached forecasts within **0.000314 percentage points**. This is a model/data issue, not a stale sample forecast. [Photo results](../reports/new-photo-recheck.json).
-- All 524 packaged LeFood pairs matched the original spreadsheet's names, weights, food groups and row references. All 1,048 referenced image files matched the original extraction's SHA-256 hashes. This verifies the import, not the physical correctness of source labels. [Source audit](../reports/source-audit/source-audit.json).
+- The running browser demo displayed 4.2% for L133. Fresh CPU encoding of six raw pairs reproduced their cached forecasts within **0.000314 percentage points**. The discrepancy persists when the photos are encoded again. [Photo results](../reports/new-photo-recheck.json).
+- All 524 packaged LeFood pairs matched the original spreadsheet's names, weights, food groups and row references. All 1,048 referenced image files matched the original extraction's SHA-256 hashes. The import matches the source files. [Source audit](../reports/source-audit/source-audit.json).
 
-The diagnostic command refits the existing candidate models and uses the original nested grouped selection. It does not select a new deployment model or alter any training labels.
+The diagnostic command refits the models using the original grouped splits:
 
 ```bash
 python -m foodvision diagnose --output reports/my-diagnostics.json
@@ -17,7 +16,7 @@ python -m foodvision diagnose --output reports/my-diagnostics.json
 
 ## Measured failure slices
 
-**Group-balanced mean absolute error, percentage points.** These are mass-label slices for diagnosis, not proposed UI categories. The Change bank is the existing benchmark method; its fitted model differs by fold and source. The deployed model is the single LeFood fold-0 fit.
+**Group-balanced mean absolute error, percentage points.** The Change bank is the existing benchmark method; its fitted model differs by fold and source. The deployed model is the single LeFood fold-0 fit.
 
 | Source and recorded mass slice | Pairs / groups | Change | Appearance |
 |---|---:|---:|---:|
@@ -49,7 +48,7 @@ All cases below belong to the deployed model's 156 held-out records. Its group-b
 
 ![Before and after photos with source weights](../reports/source-audit/review-pairs.jpg)
 
-Photographs: LeFood-Set v1, Yuita Arum Sari, Yudi Arimba Wani and Atsushi Nakazawa, CC BY 4.0. Images resized and assembled for review. Visual observations are qualitative, not corrected mass measurements or human segmentation annotations. L400, L117 and L476 remain in the original benchmark unchanged. Removing high-error examples after seeing predictions would bias the comparison.
+Photographs: LeFood-Set v1, Yuita Arum Sari, Yudi Arimba Wani and Atsushi Nakazawa, CC BY 4.0. Images resized and assembled for review. L400, L117 and L476 remain in the benchmark with their source labels.
 
 Reproduce source mapping and the review image with a Python environment that already has `openpyxl` and Pillow (the demo does not require openpyxl):
 
@@ -60,3 +59,5 @@ python scripts/audit_lefood_sources.py \
 ```
 
 The script opens the workbook read-only, checks all retained pairs, and refuses an existing output directory or an output inside the research workspace. Raw photo forecasts can be rerun with `python -m foodvision predict --before <source-photo> --after <source-photo>` using the filenames in the audit JSON.
+
+The [segmentation comparison](EXPERIMENTS.md) and [depth experiments](DEPTH.md) evaluate the proposed feature additions. Neither justified replacing the current estimator. Further improvements require independently reviewed labels and a separate weighed serving/session holdout.

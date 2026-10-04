@@ -23,10 +23,13 @@ jobs:
       - run: docker build -t aftermeal-ci .
       - name: Smoke test container
         run: |
-          docker run -d --name aftermeal-ci -p 127.0.0.1:8080:8080 --read-only --tmpfs /tmp aftermeal-ci
+          docker run -d --name aftermeal-ci -p 127.0.0.1:8080:8080 --memory=512m --memory-swap=512m --cpus=0.1 --read-only --tmpfs /tmp aftermeal-ci
           trap 'docker logs aftermeal-ci; docker rm -f aftermeal-ci' EXIT
-          for attempt in $(seq 1 30); do
+          for attempt in $(seq 1 120); do
             if curl -fsS http://127.0.0.1:8080/healthz; then break; fi
             sleep 1
           done
           python scripts/smoke_public.py http://127.0.0.1:8080
+          docker exec aftermeal-ci python -c "import importlib.util; assert importlib.util.find_spec('torch') is None"
+          docker stats --no-stream aftermeal-ci
+          test "$(docker inspect --format='{{.RestartCount}}' aftermeal-ci)" = 0

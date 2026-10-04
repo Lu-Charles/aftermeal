@@ -21,11 +21,10 @@ The source data licenses apply to derived data assets in `data/`, photographs an
 
 ## Encoder
 
-The demo uses [DINOv2 ViT-S/14](https://github.com/facebookresearch/dinov2) from Meta. Its code revision and pretrained-weight checksum are recorded in `models/demo_model.json`. DINOv2 is separately licensed by its authors; no pretrained encoder weights are redistributed in this package.
+The demo uses [DINOv2 ViT-S/14](https://github.com/facebookresearch/dinov2) from Meta. Its code revision and pretrained-weight checksum are recorded in `models/demo_model.json`. DINOv2 is separately licensed by its authors. The source repository excludes its weights; the Docker image includes the ONNX export and a copy of the DINOv2 license.
 
 ## Included inputs
 
 `data/features.npz` stores before and after embeddings and row identifiers. `records.json` holds the matching targets and group identifiers. `episodes.json` defines ten outer evaluation episodes and their inner folds. `reference_predictions.json` stores the comparison forecasts used by the regression check. `checksums.json` verifies these files and the demo model/example assets.
 
-The minimal installation runs the complete included feature benchmark without downloading raw datasets. New-photo inference additionally requires the PyTorch encoder installation and its first-use download.
-
+The packaged embeddings are sufficient to reproduce the benchmark. The Docker image also includes the encoder for new-photo inference.

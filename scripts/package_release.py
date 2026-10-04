@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 ROOT = Path(__file__).resolve().parent.parent
@@ -31,12 +32,12 @@ def build(output):
             if re.search(b'/(?:Users|home)/[A-Za-z0-9_.-]+/', raw):
                 raise ValueError(f'Local path needs review before release: {name}')
         entries[name] = raw
-    manifest = {'version': '1.0.2', 'kind': 'standalone_source_release', 'redactions': redactions, 'files': {name: hashlib.sha256(raw).hexdigest() for name, raw in entries.items()}}
+    manifest = {'version': '1.1.0', 'kind': 'standalone_source_release', 'redactions': redactions, 'files': {name: hashlib.sha256(raw).hexdigest() for name, raw in entries.items()}}
     entries['RELEASE-MANIFEST.json'] = (json.dumps(manifest, indent=2) + '\n').encode()
     output.parent.mkdir(parents=True, exist_ok=True)
     with ZipFile(output, 'x', compression=ZIP_DEFLATED) as archive:
         for name, raw in entries.items():
-            info = ZipInfo('aftermeal/' + name, date_time=(2026, 10, 4, 0, 0, 0))
+            info = ZipInfo('aftermeal/' + name, date_time=datetime.now(timezone.utc).timetuple()[:6])
             info.compress_type = ZIP_DEFLATED
             info.external_attr = 33188 << 16
             archive.writestr(info, raw)

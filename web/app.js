@@ -24,7 +24,7 @@ async function requestJSON(path, payload, timeout = 10000) {
     if (!response.ok) throw new Error(data.error || "The request failed. Please retry.");
     return data;
   } catch (error) {
-    if (error.name === "AbortError") throw new Error("The request timed out. Please retry; local first-use model setup may still be running.");
+    if (error.name === "AbortError") throw new Error("The request timed out. Please retry; the server may still be waking up.");
     throw error;
   } finally { clearTimeout(timer); }
 }
@@ -54,7 +54,7 @@ function result(data) {
       : "Compared with the dataset’s recorded before/after mass ratio. This pair was held out from the demo model’s calibration groups.";
   } else {
     $("sample-explanation").hidden = true;
-    $("result-explanation").textContent = "New photos were encoded on this machine. Accuracy for this pair is unknown without a measured before/after mass ratio.";
+    $("result-explanation").textContent = `${config?.mode === "hosted" ? "Your photos were analyzed on the server and were not saved." : "New photos were encoded on this machine."} Accuracy for this pair is unknown without a measured before/after mass ratio.`;
   }
 }
 
@@ -70,7 +70,8 @@ async function analyze() {
     const payload = currentExample ? { example_id: currentExample.id } : {...upload};
     if (!currentExample && (!upload.before || !upload.after)) throw new Error("Choose both a before photo and an after photo.");
     if (!currentExample && $("show-highlight").checked) highlightUploads();
-    const data = await requestJSON("/api/predict", payload, currentExample ? 10000 : 120000);
+    const path = !currentExample && config?.mode === "hosted" ? "/api/upload" : "/api/predict";
+    const data = await requestJSON(path, payload, currentExample ? 10000 : 180000);
     if (version !== requestVersion) return;
     if (data.status === "needs_review" || data.status === "rejected") {
       $("input-feedback-title").textContent = "Choose another photo";
@@ -147,6 +148,7 @@ for (const slot of ["before", "after"]) $(slot + "-image").addEventListener("err
 });
 
 async function highlightUploads() {
+  if (config?.upload_highlights === false) return;
   if (sourceMode !== "upload" || !upload.before || !upload.after) return;
   if (uploadHighlights) { showSamplePhotos(); return; }
   const version = ++highlightRequest;
@@ -170,12 +172,26 @@ async function chooseFile(slot, file) {
     status("Choose a JPEG or PNG smaller than 8 MB.", true); return;
   }
   const fileVersion = ++fileVersions[slot];
-  const value = await new Promise((resolve, reject) => {
+  let value = await new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = () => reject(new Error("Could not read this photo."));
     reader.readAsDataURL(file);
   });
+  if (config?.mode === "hosted") {
+    const photo = new Image(); photo.src = value;
+    await photo.decode();
+    const scale = Math.min(1, 1600 / Math.max(photo.naturalWidth, photo.naturalHeight));
+    if (scale < 1 || file.size > 4 * 1024 * 1024) {
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(photo.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(photo.naturalHeight * scale));
+      const context = canvas.getContext("2d");
+      context.fillStyle = "white"; context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(photo, 0, 0, canvas.width, canvas.height);
+      value = canvas.toDataURL("image/jpeg", 0.92);
+    }
+  }
   if (fileVersion !== fileVersions[slot]) return;
   ++requestVersion;
   setMode("upload");
@@ -249,12 +265,15 @@ for (const slot of ["before", "after"]) {
 }
 
 async function start() {
-  config = await requestJSON("/api/config");
+  config = await requestJSON("/api/config", undefined, 90000);
   $("mode-upload").hidden = !config.uploads;
   $("public-mode-note").hidden = config.mode !== "public";
   document.querySelector(".workspace-toolbar").hidden = !config.uploads;
   $("runtime-label").textContent = "Aftermeal";
-  $("privacy-description").textContent = config.mode === "public" ? "This demo uses sample photos and does not collect uploads." : "Your photos stay on this computer and are not saved.";
+  $("privacy-description").textContent = config.mode === "hosted"
+    ? "Your photo pair is sent securely to the server for analysis, processed in memory, and not saved. Large photos are resized in your browser before upload."
+    : config.mode === "public" ? "This demo uses sample photos and does not collect uploads." : "Your photos stay on this computer and are not saved.";
+  if (config.mode === "hosted") $("upload-guide").textContent = "Same meal, before and after. JPG or PNG · up to 8 MB. Photos are resized, sent to the server, and not saved. Food highlights are available for sample pairs.";
   examples = await requestJSON("/api/examples");
   const order = ["L133", "L492", "L388"];
   for (const id of order) {
@@ -290,7 +309,7 @@ function setMode(mode) {
   $("mode-upload").setAttribute("aria-pressed", String(mode === "upload"));
   $("sample-tray").hidden = mode !== "examples";
   $("upload-guide").hidden = mode !== "upload";
-  $("highlight-controls").hidden = false;
+  $("highlight-controls").hidden = mode === "upload" && config?.upload_highlights === false;
   $("input-feedback").hidden = true;
 }
 

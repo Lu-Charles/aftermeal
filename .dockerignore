@@ -1,6 +1,10 @@
 **
 !requirements.txt
 !requirements-public.txt
+!requirements-hosted.txt
+!requirements-export.txt
+!scripts/
+!scripts/export_hosted_encoder.py
 !gunicorn.conf.py
 !LICENSE
 !foodvision/
